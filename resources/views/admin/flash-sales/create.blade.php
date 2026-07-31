@@ -1,0 +1,57 @@
+@extends('admin.layouts.app')
+@section('title', 'Buat Flash Sale')
+@section('page-title', 'Flash Sale')
+
+@section('content')
+<div style="display:flex;align-items:center;gap:12px;margin-bottom:22px;" class="fade-up">
+    <a href="{{ route('admin.flash-sales.index') }}" style="color:var(--muted);text-decoration:none;font-size:13px;"><i class="fas fa-arrow-left"></i> Kembali</a>
+    <span style="color:var(--border);">/</span>
+    <h2 style="font-size:20px;font-weight:700;">Buat Flash Sale Baru</h2>
+</div>
+
+<form action="{{ route('admin.flash-sales.store') }}" method="POST" class="fade-up delay-1" onsubmit="const btn = this.querySelector('button[type=submit]'); if(btn) setLoading(btn, true, 'Menyimpan...'); return true;">
+    @csrf
+    <div style="display:grid;grid-template-columns:1fr 340px;gap:20px;">
+        <div class="glass-card panel">
+            <div class="panel-title" style="margin-bottom:18px;">🔥 Detail Flash Sale</div>
+            <div style="margin-bottom:14px;">
+                <label class="form-label">Nama Campaign *</label>
+                <input class="form-input" name="name" value="{{ old('name') }}" placeholder="Misal: Harbolnas 11.11" required>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                <div>
+                    <label class="form-label">Mulai *</label>
+                    <input class="form-input" type="datetime-local" name="starts_at" value="{{ old('starts_at') }}" required>
+                </div>
+                <div>
+                    <label class="form-label">Berakhir *</label>
+                    <input class="form-input" type="datetime-local" name="ends_at" value="{{ old('ends_at') }}" required>
+                </div>
+            </div>
+        </div>
+        <div class="glass-card panel">
+            <div class="panel-title" style="margin-bottom:16px;">⚙️ Status</div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:12px;border-radius:10px;background:var(--surface-2);margin-bottom:14px;">
+                <span style="font-size:13px;">Aktifkan Langsung</span>
+                <label class="toggle-switch">
+                    <input type="checkbox" name="is_active" value="1" checked>
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+            <button type="submit" class="btn-ag btn-primary" style="width:100%;justify-content:center;padding:12px;">
+                <i class="fas fa-fire"></i> Buat Flash Sale
+            </button>
+        </div>
+    </div>
+</form>
+@endsection
+@push('styles')
+<style>
+.toggle-switch{position:relative;display:inline-block;width:44px;height:24px;}
+.toggle-switch input{opacity:0;width:0;height:0;}
+.toggle-slider{position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;background:var(--surface-2);border:1px solid var(--border);transition:.2s;border-radius:24px;}
+.toggle-slider:before{position:absolute;content:"";height:18px;width:18px;left:2px;bottom:2px;background:var(--muted);transition:.2s;border-radius:50%;}
+input:checked+.toggle-slider{background:var(--blue);border-color:var(--blue);}
+input:checked+.toggle-slider:before{transform:translateX(20px);background:#fff;}
+</style>
+@endpush

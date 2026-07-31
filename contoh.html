@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Listrindo Jaya — Pusat Perkakas & Teknik Profesional</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root {
+  --blue:    #025cca;
+  --blue-dk: #02469c;
+  --blue-lt: #EBF2FF;
+  --amber:   #ea580c; /* Disesuaikan sedikit lebih gelap agar terbaca di latar terang */
+  --red:     #e11d48;
+  --green:   #059669;
+  --bg:      #f1f5f9;
+  --surface: #ffffff;
+  --card:    #ffffff;
+  --line:    #cbd5e1; /* Garis dipertegas */
+  --ink:     #0f172a; /* Hitam pekat */
+  --ink-2:   #334155; /* Abu-abu tua (lebih tajam) */
+  --ink-3:   #64748b; /* Abu-abu medium (sebelumnya terlalu muda/pudar) */
+  --white:   #ffffff;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--ink); font-family: 'DM Sans', sans-serif; font-size: 14px; line-height: 1.6; min-height: 100vh; }
+a { text-decoration: none; color: inherit; }
+ul { list-style: none; }
+img { display: block; max-width: 100%; }
+.wrap { width: 100%; max-width: 1240px; margin: 0 auto; padding: 0 20px; }
+
+/* ── SCROLLBAR ──────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: #c5c9d2; border-radius: 3px; }
+
+/* ── TOP STRIP ──────────────────────────────── */
+.strip {
+  background: var(--blue);
+  color: var(--white);
+  font-size: 12px; font-weight: 500;
+  padding: 7px 0;
+  letter-spacing: 0.02em;
+}
+.strip .wrap { display: flex; justify-content: space-between; align-items: center; }
+.strip a { opacity: 0.95; }
+.strip a:hover { opacity: 1; text-decoration: underline; }
+.strip-links { display: flex; gap: 20px; }
+
+/* ── HEADER ─────────────────────────────────── */
+.header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+  position: sticky; top: 0; z-index: 200;
+  padding: 14px 0;
+  backdrop-filter: blur(12px);
+}
+.header-inner { display: flex; align-items: center; gap: 24px; }
+
+.logo {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 28px; font-weight: 800;
+  color: var(--white);
+  letter-spacing: -0.5px;
+  flex-shrink: 0;
+  display: flex; align-items: center; gap: 2px;
+}
+.logo-bolt {
+  width: 28px; height: 28px;
+  background: var(--blue);
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  margin-right: 6px;
+}
+.logo-bolt i { font-size: 14px; color: var(--white); }
+.logo span { color: var(--amber); }
+
+.search-wrap {
+  flex: 1;
+  display: flex;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: border-color .2s;
+}
+.search-wrap:focus-within { border-color: var(--blue); }
+.search-wrap input {
+  flex: 1; padding: 10px 16px;
+  background: transparent; border: none; outline: none;
+  color: var(--ink); font-size: 14px; font-family: 'DM Sans', sans-serif;
+}
+.search-wrap input::placeholder { color: var(--ink-3); }
+.search-wrap button {
+  background: var(--blue); border: none;
+  padding: 0 20px; cursor: pointer; color: var(--white);
+  font-size: 16px; transition: background .2s;
+}
+.search-wrap button:hover { background: var(--blue-dk); }
+
+.hdr-actions { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+.hdr-icon {
+  width: 40px; height: 40px;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  background: transparent; border: 1px solid var(--line);
+  color: var(--ink-2); cursor: pointer; font-size: 16px;
+  transition: all .15s; position: relative;
+}
+.hdr-icon:hover { background: var(--card); color: var(--ink); }
+.badge {
+  position: absolute; top: -5px; right: -5px;
+  background: var(--red); color: var(--white);
+  font-size: 10px; font-weight: 700;
+  padding: 2px 5px; border-radius: 20px;
+  border: 2px solid var(--surface);
+  min-width: 18px; text-align: center;
+}
+.hdr-auth { display: flex; gap: 8px; flex-shrink: 0; }
+.btn { padding: 9px 18px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all .15s; border: none; }
+.btn-ghost { background: transparent; border: 1px solid var(--line); color: var(--ink-2); }
+.btn-ghost:hover { border-color: var(--blue); color: var(--blue); }
+.btn-primary { background: var(--blue); color: var(--white); }
+.btn-primary:hover { background: var(--blue-dk); }
+
+/* ── NAV MENU ────────────────────────────────── */
+.nav {
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+}
+.nav-list { display: flex; gap: 0; }
+.nav-list a {
+  display: flex; align-items: center; gap: 6px;
+  padding: 11px 14px;
+  font-size: 13px; font-weight: 500; color: var(--ink-2);
+  border-bottom: 2px solid transparent;
+  transition: all .15s;
+  white-space: nowrap;
+}
+.nav-list a:hover { color: var(--blue); border-bottom-color: var(--blue); }
+.nav-list a.sale { color: var(--red); }
+.nav-list a.sale:hover { color: var(--red); border-bottom-color: var(--red); }
+
+/* ── HERO ─────────────────────────────────────── */
+.hero { padding: 28px 0; }
+.hero-grid { display: grid; grid-template-columns: 1fr 300px; gap: 16px; }
+
+.hero-main {
+  position: relative; border-radius: 16px; overflow: hidden;
+  min-height: 320px;
+  background: var(--card);
+}
+.hero-bg-img {
+  position: absolute; inset: 0;
+  background: url('https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&w=900&q=80') center/cover;
+}
+.hero-bg-img::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(105deg, rgba(2, 25, 75, 0.95) 38%, rgba(2, 25, 75, 0.4) 100%); /* Overlay digelapkan sedikit agar teks putih terbaca */
+}
+.hero-body {
+  position: relative; z-index: 2;
+  padding: 48px 48px;
+  height: 100%; display: flex; flex-direction: column; justify-content: center;
+}
+.hero-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(255,255,255,.15); /* Diubah agar lebih kontras */
+  border: 1px solid rgba(255,255,255,.3);
+  color: var(--white);
+  font-size: 11px; font-weight: 600;
+  padding: 4px 12px; border-radius: 20px;
+  letter-spacing: .08em; text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.hero-chip i { font-size: 10px; color: var(--amber); }
+.hero-h {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 56px; font-weight: 800;
+  line-height: .95; letter-spacing: -1px;
+  color: var(--white);
+  margin-bottom: 12px;
+}
+.hero-h span { color: var(--amber); }
+.hero-sub {
+  font-size: 15px; color: rgba(255,255,255,.9); /* Opacity dinaikkan dari .65 ke .9 */
+  margin-bottom: 28px; max-width: 360px;
+}
+.hero-cta { display: flex; gap: 10px; align-items: center; }
+.btn-hero {
+  padding: 12px 28px; border-radius: 8px; font-size: 14px; font-weight: 700;
+  cursor: pointer; border: none; font-family: 'DM Sans', sans-serif;
+  transition: all .15s;
+}
+.btn-hero-main { background: var(--blue); color: var(--white); }
+.btn-hero-main:hover { background: #1A6AFF; transform: translateY(-1px); }
+.btn-hero-ghost {
+  background: transparent; color: var(--white);
+  border: 1px solid rgba(255,255,255,.3);
+  font-size: 14px; font-weight: 600;
+  padding: 11px 24px; border-radius: 8px; cursor: pointer;
+  font-family: 'DM Sans', sans-serif; transition: all .15s;
+}
+.btn-hero-ghost:hover { border-color: rgba(255,255,255,.6); }
+
+.hero-stats { display: flex; gap: 28px; margin-top: 36px; }
+.hero-stat-val {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 26px; font-weight: 700; color: var(--white);
+}
+.hero-stat-lbl { font-size: 12px; color: rgba(255,255,255,.7); letter-spacing: .04em; } /* Opacity dinaikkan */
+
+.hero-side { display: flex; flex-direction: column; gap: 16px; }
+.side-card {
+  flex: 1; border-radius: 14px; padding: 22px;
+  background: var(--white); border: 1px solid var(--line);
+  display: flex; flex-direction: column; justify-content: space-between;
+  transition: border-color .2s; cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,.04);
+}
+.side-card:hover { border-color: var(--blue); }
+.side-card-tag {
+  font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--blue); margin-bottom: 10px;
+}
+.side-card h3 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 22px; font-weight: 700; color: var(--ink);
+  line-height: 1.1; margin-bottom: 6px;
+}
+.side-card p { font-size: 12px; color: var(--ink-2); }
+.side-card-footer {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 12px; font-weight: 600; color: var(--blue);
+  margin-top: 16px;
+}
+.side-card-footer i { font-size: 11px; }
+
+/* ── SECTION ─────────────────────────────────── */
+.section { margin-bottom: 48px; }
+.section-hdr { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 20px; }
+.section-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 26px; font-weight: 800; color: var(--ink);
+  letter-spacing: -.3px;
+}
+.section-title span { color: var(--blue); }
+.section-all {
+  font-size: 13px; font-weight: 600; color: var(--blue);
+  display: flex; align-items: center; gap: 4px;
+  transition: gap .15s;
+}
+.section-all:hover { gap: 8px; }
+
+/* ── PRODUCT GRID ───────────────────────────── */
+.pgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; }
+
+.pcard {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  overflow: hidden;
+  display: flex; flex-direction: column;
+  cursor: pointer;
+  transition: border-color .2s, transform .2s, box-shadow .2s;
+  position: relative;
+}
+.pcard:hover { border-color: var(--blue); transform: translateY(-3px); box-shadow: 0 8px 24px rgba(2,92,202,.1); }
+
+.pcard-img {
+  position: relative;
+  background: #f8f9fb;
+  padding-top: 100%;
+  overflow: hidden;
+}
+.pcard-img img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%; object-fit: contain;
+  padding: 16px;
+  transition: transform .3s;
+}
+.pcard:hover .pcard-img img { transform: scale(1.05); }
+
+.disc-badge {
+  position: absolute; top: 10px; right: 10px;
+  background: var(--red); color: var(--white);
+  font-size: 11px; font-weight: 700;
+  padding: 3px 8px; border-radius: 6px; z-index: 2;
+  letter-spacing: .02em;
+}
+.new-badge {
+  position: absolute; top: 10px; left: 10px;
+  background: var(--green); color: var(--white);
+  font-size: 10px; font-weight: 700;
+  padding: 3px 8px; border-radius: 6px; z-index: 2;
+  letter-spacing: .04em; text-transform: uppercase;
+}
+
+.pcard-body { padding: 14px; display: flex; flex-direction: column; flex: 1; }
+.pcard-name {
+  font-size: 13px; color: var(--ink);
+  line-height: 1.45; margin-bottom: 10px;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.pcard-price {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 22px; font-weight: 700; color: var(--ink);
+  letter-spacing: -.3px;
+}
+.pcard-price-orig { font-size: 11px; color: var(--ink-3); text-decoration: line-through; margin-bottom: 10px; }
+
+.pcard-meta { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--ink-3); margin-bottom: 4px; }
+.star { color: #F5C518; font-size: 10px; }
+.sold { font-size: 11px; color: var(--ink-3); margin-top: auto; padding-top: 8px; }
+.pcard-footer { padding: 0 14px 14px; }
+.btn-cart {
+  width: 100%; padding: 9px;
+  background: transparent; border: 1px solid rgba(0,87,255,.35); color: var(--blue);
+  border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  transition: all .15s;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+}
+.btn-cart:hover { background: var(--blue); color: var(--white); border-color: var(--blue); }
+.btn-cart i { font-size: 11px; }
+
+/* ── PROMO BANNER ───────────────────────────── */
+.promo-strip {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 16px; padding: 24px 32px;
+  display: flex; align-items: center; gap: 32px;
+  margin-bottom: 48px; cursor: pointer;
+  transition: border-color .2s;
+  box-shadow: 0 2px 8px rgba(0,0,0,.04);
+}
+.promo-strip:hover { border-color: var(--amber); }
+.promo-left { flex: 1; }
+.promo-chip {
+  display: inline-block; background: rgba(255,140,0,.15); color: var(--amber);
+  font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  padding: 4px 10px; border-radius: 20px; margin-bottom: 8px;
+  border: 1px solid rgba(255,140,0,.3);
+}
+.promo-h {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 32px; font-weight: 800; color: var(--ink); line-height: 1;
+}
+.promo-h span { color: var(--amber); }
+.promo-sub { font-size: 13px; color: var(--ink-2); margin-top: 6px; }
+.promo-countdown { display: flex; gap: 12px; align-items: center; }
+.countdown-block { text-align: center; }
+.countdown-num {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 32px; font-weight: 800; color: var(--amber);
+  background: rgba(255,140,0,.08); border: 1px solid rgba(255,140,0,.2);
+  border-radius: 8px; padding: 6px 14px; line-height: 1; display: block;
+}
+.countdown-lbl { font-size: 10px; color: var(--ink-3); margin-top: 5px; letter-spacing: .06em; text-transform: uppercase; }
+.countdown-sep { font-size: 24px; font-weight: 700; color: var(--amber); margin-bottom: 18px; }
+
+/* ── FLASH SALE ROW ─────────────────────────── */
+.flash-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+.flash-pcard {
+  background: var(--white); border: 1px solid var(--line);
+  border-radius: 14px; overflow: hidden; cursor: pointer;
+  transition: border-color .2s, transform .2s;
+  box-shadow: 0 1px 4px rgba(0,0,0,.05);
+}
+.flash-pcard:hover { border-color: var(--amber); transform: translateY(-2px); }
+.flash-img { background: #f8f9fb; position: relative; padding-top: 100%; }
+.flash-img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; padding: 14px; }
+.flash-info { padding: 12px; }
+.flash-name { font-size: 12px; color: var(--ink-2); line-height: 1.4; margin-bottom: 8px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.flash-price { font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 700; color: var(--ink); }
+.flash-orig { font-size: 11px; color: var(--ink-3); text-decoration: line-through; }
+.flash-disc { font-size: 11px; color: var(--red); font-weight: 700; }
+.flash-bar-wrap { padding: 0 12px 12px; }
+.flash-bar-bg { background: rgba(255,255,255,.07); border-radius: 4px; height: 4px; overflow: hidden; }
+.flash-bar-fill { height: 100%; background: var(--amber); border-radius: 4px; }
+.flash-bar-lbl { font-size: 10px; color: var(--ink-3); margin-top: 4px; }
+
+/* ── DETAIL VIEW ─────────────────────────────── */
+.breadcrumb {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px; color: var(--ink-3); padding: 20px 0;
+}
+.breadcrumb a { color: var(--ink-2); }
+.breadcrumb a:hover { color: var(--blue); }
+.breadcrumb i { font-size: 9px; }
+
+.detail-layout { display: flex; gap: 28px; align-items: flex-start; margin-bottom: 60px; }
+
+.detail-gallery { width: 360px; flex-shrink: 0; }
+.main-img {
+  border-radius: 14px; overflow: hidden; margin-bottom: 12px;
+  background: #f8f9fb; border: 1px solid var(--line);
+  position: relative;
+}
+.main-img img { width: 100%; height: 360px; object-fit: contain; padding: 20px; }
+.main-img-badge {
+  position: absolute; top: 14px; right: 14px;
+  background: var(--red); color: var(--white);
+  font-size: 14px; font-weight: 800;
+  padding: 6px 12px; border-radius: 8px;
+  font-family: 'Barlow Condensed', sans-serif;
+}
+.thumbs { display: flex; gap: 8px; }
+.thumb {
+  width: 70px; height: 70px; flex-shrink: 0;
+  border-radius: 10px; overflow: hidden;
+  background: #f8f9fb; border: 1px solid var(--line);
+  cursor: pointer; transition: border-color .15s;
+}
+.thumb:hover, .thumb.active { border-color: var(--blue); }
+.thumb img { width: 100%; height: 100%; object-fit: contain; padding: 6px; }
+
+.detail-info { flex: 1; }
+.detail-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 28px; font-weight: 800; line-height: 1.1;
+  color: var(--ink); margin-bottom: 14px; letter-spacing: -.3px;
+}
+.detail-rating {
+  display: flex; align-items: center; gap: 16px;
+  font-size: 13px; color: var(--ink-2);
+  padding-bottom: 16px; margin-bottom: 20px;
+  border-bottom: 1px solid var(--line);
+}
+.detail-price-block { margin-bottom: 20px; }
+.detail-price {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 40px; font-weight: 800; color: var(--ink); line-height: 1;
+}
+.detail-orig { font-size: 15px; color: var(--ink-3); text-decoration: line-through; margin-top: 4px; display: inline-flex; align-items: center; gap: 8px; }
+.detail-orig-disc { font-size: 12px; background: rgba(229,57,53,.15); color: #FF7875; padding: 2px 8px; border-radius: 20px; font-weight: 700; border: 1px solid rgba(229,57,53,.3); }
+
+.trust-box {
+  background: #f8f9fb; border: 1px solid var(--line);
+  border-radius: 12px; padding: 18px; margin-bottom: 24px;
+}
+.trust-title { font-size: 13px; font-weight: 600; color: var(--ink-2); margin-bottom: 14px; }
+.trust-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.trust-item { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 500; color: var(--ink); }
+.trust-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+.ti-gold { background: rgba(245,197,24,.12); color: #F5C518; }
+.ti-green { background: rgba(0,163,108,.12); color: var(--green); }
+.ti-blue  { background: rgba(0,87,255,.12); color: var(--blue); }
+.ti-gray  { background: rgba(138,145,163,.1); color: var(--ink-2); }
+
+.tab-row { display: flex; gap: 24px; border-bottom: 1px solid var(--line); margin-bottom: 20px; }
+.tab {
+  font-size: 13px; font-weight: 600; color: var(--ink-3);
+  padding: 10px 0; cursor: pointer;
+  border-bottom: 2px solid transparent; margin-bottom: -1px;
+  transition: color .15s;
+}
+.tab.active { color: var(--blue); border-bottom-color: var(--blue); }
+.tab-body { font-size: 14px; color: var(--ink-2); line-height: 1.8; }
+.tab-body b { color: var(--ink); }
+
+.action-card {
+  width: 290px; flex-shrink: 0;
+  background: var(--white); border: 1px solid var(--line);
+  border-radius: 16px; padding: 20px;
+  position: sticky; top: 90px;
+  box-shadow: 0 4px 16px rgba(0,0,0,.07);
+}
+.action-label { font-size: 12px; font-weight: 600; color: var(--ink-3); margin-bottom: 14px; letter-spacing: .04em; text-transform: uppercase; }
+.qty-row { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
+.qty-ctrl { display: flex; align-items: center; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+.qty-btn { width: 34px; height: 34px; background: #f8f9fb; border: none; cursor: pointer; color: var(--ink-2); font-size: 16px; transition: background .15s; }
+.qty-btn:hover { background: #eef0f4; color: var(--ink); }
+.qty-in { width: 40px; height: 34px; border: none; border-left: 1px solid var(--line); border-right: 1px solid var(--line); text-align: center; font-size: 14px; font-weight: 600; background: var(--white); color: var(--ink); outline: none; font-family: 'DM Sans', sans-serif; }
+.qty-stock { font-size: 12px; color: var(--ink-3); }
+.qty-stock span { color: var(--green); font-weight: 600; }
+
+.subtotal-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 18px; }
+.subtotal-lbl { font-size: 12px; color: var(--ink-3); }
+.subtotal-val { font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 800; color: var(--ink); }
+
+.btn-detail-cart {
+  width: 100%; padding: 11px;
+  background: transparent; border: 1px solid var(--blue); color: var(--blue);
+  border-radius: 10px; font-size: 14px; font-weight: 700; cursor: pointer;
+  font-family: 'DM Sans', sans-serif; transition: all .15s; margin-bottom: 8px;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.btn-detail-cart:hover { background: rgba(0,87,255,.08); }
+.btn-detail-buy {
+  width: 100%; padding: 12px;
+  background: var(--blue); border: none; color: var(--white);
+  border-radius: 10px; font-size: 14px; font-weight: 700; cursor: pointer;
+  font-family: 'DM Sans', sans-serif; transition: all .15s;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.btn-detail-buy:hover { background: #1A6AFF; }
+.action-secure {
+  margin-top: 14px; text-align: center;
+  font-size: 11px; color: var(--ink-3); display: flex; align-items: center; justify-content: center; gap: 6px;
+}
+.action-secure i { color: var(--green); }
+
+/* ── CATEGORY VIEW ───────────────────────────── */
+.cat-layout { display: flex; gap: 24px; align-items: flex-start; margin-bottom: 60px; }
+.filter-col {
+  width: 240px; flex-shrink: 0;
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: 14px; padding: 20px;
+  position: sticky; top: 90px;
+}
+.filter-h { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+.filter-reset { font-size: 12px; color: var(--blue); cursor: pointer; }
+.filter-div { border-top: 1px solid var(--line); margin: 16px 0; }
+.filter-section-title { font-size: 12px; font-weight: 700; color: var(--ink-2); letter-spacing: .06em; text-transform: uppercase; margin-bottom: 12px; }
+.filter-check { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; cursor: pointer; }
+.filter-check input[type=checkbox] { width: 16px; height: 16px; accent-color: var(--blue); cursor: pointer; }
+.filter-check span { font-size: 13px; color: var(--ink-2); }
+.filter-price { display: flex; gap: 8px; align-items: center; }
+.filter-price input { width: 100%; padding: 8px 10px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; font-size: 12px; color: var(--ink); outline: none; font-family: 'DM Sans', sans-serif; }
+.filter-price input:focus { border-color: var(--blue); }
+.filter-price span { color: var(--ink-3); flex-shrink: 0; }
+
+.cat-content { flex: 1; }
+.cat-header {
+  display: flex; justify-content: space-between; align-items: center;
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: 12px; padding: 14px 18px; margin-bottom: 18px;
+}
+.cat-title { font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 800; color: var(--ink); }
+.sort-select {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: 8px; padding: 8px 12px; font-size: 13px;
+  color: var(--ink-2); outline: none; font-family: 'DM Sans', sans-serif; cursor: pointer;
+}
+
+/* ── TOAST ───────────────────────────────────── */
+#toast {
+  position: fixed; bottom: 28px; right: 28px;
+  background: var(--surface); border: 1px solid var(--line);
+  color: var(--ink); padding: 14px 20px;
+  border-radius: 12px; font-size: 13px; font-weight: 500;
+  display: none; z-index: 999; box-shadow: 0 8px 24px rgba(0,0,0,.4);
+  display: none; align-items: center; gap: 10px;
+  min-width: 240px;
+}
+.toast-dot { width: 8px; height: 8px; background: var(--green); border-radius: 50%; flex-shrink: 0; }
+
+/* ── FOOTER ───────────────────────────────────── */
+footer {
+  background: var(--surface);
+  border-top: 1px solid var(--line);
+  padding: 48px 0 24px;
+}
+.footer-grid { display: grid; grid-template-columns: 1.8fr 1fr 1fr 1.4fr; gap: 32px; margin-bottom: 40px; }
+.footer-logo-desc { font-size: 13px; color: var(--ink-2); margin-top: 14px; line-height: 1.7; max-width: 240px; } /* Warna diubah jadi ink-2 agar terbaca jelas */
+.footer-socials { display: flex; gap: 10px; margin-top: 20px; }
+.social-btn {
+  width: 36px; height: 36px; border-radius: 8px;
+  background: var(--bg); border: 1px solid var(--line);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--ink-2); font-size: 15px; cursor: pointer; transition: all .15s;
+}
+.social-btn:hover { border-color: var(--blue); color: var(--white); background: var(--blue); }
+.footer-col-title { font-size: 12px; font-weight: 800; color: var(--ink); letter-spacing: .08em; text-transform: uppercase; margin-bottom: 16px; } /* Diubah ke bold ink */
+.footer-col ul li { margin-bottom: 10px; }
+.footer-col ul li a { font-size: 13px; color: var(--ink-2); transition: color .15s; } /* Warna diubah ke ink-2 */
+.footer-col ul li a:hover { color: var(--blue); font-weight: 500; }
+.pay-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+.pay-chip {
+  background: var(--bg); border: 1px solid var(--line);
+  border-radius: 6px; padding: 4px 10px;
+  font-size: 11px; font-weight: 700; color: var(--ink-2);
+}
+.footer-bottom {
+  border-top: 1px solid var(--line);
+  padding-top: 20px;
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 12px; color: var(--ink-3);
+}
+
+/* ── RESPONSIVE ──────────────────────────────── */
+@media (max-width: 1024px) {
+  .hero-grid { grid-template-columns: 1fr; }
+  .hero-side { flex-direction: row; }
+  .flash-row { grid-template-columns: repeat(3, 1fr); }
+  .detail-layout { flex-direction: column; }
+  .detail-gallery { width: 100%; }
+  .action-card { width: 100%; position: static; }
+  .cat-layout { flex-direction: column; }
+  .filter-col { width: 100%; position: static; }
+}
+@media (max-width: 768px) {
+  .hero-side { flex-direction: column; }
+  .header-inner { gap: 12px; }
+  .hdr-auth { display: none; }
+  .flash-row { grid-template-columns: repeat(2, 1fr); }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .promo-strip { flex-direction: column; gap: 20px; }
+  .footer-bottom { flex-direction: column; gap: 10px; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- TOAST -->
+<div id="toast"><span class="toast-dot"></span><span id="toastMsg">Berhasil ditambahkan</span></div>
+
+<!-- STRIP -->
+<div class="strip">
+  <div class="wrap" style="display:flex;justify-content:space-between;font-size:12px;font-weight:500;">
+    <div class="strip-links">
+      <span><i class="fas fa-bolt"></i> Download App</span>
+      <a href="#">Tentang Listrindo Jaya</a>
+      <a href="#">Mulai Berjualan</a>
+    </div>
+    <div class="strip-links">
+      <a href="#"><i class="fas fa-tag"></i> Promo Hari Ini</a>
+      <a href="#"><i class="fas fa-headset"></i> Bantuan</a>
+    </div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="wrap header-inner">
+    <a href="#" class="logo" onclick="showHome()">
+      <div class="logo-bolt"><i class="fas fa-bolt"></i></div>
+      Volt<span>Gear</span>
+    </a>
+    <div class="search-wrap">
+      <input type="text" placeholder="Cari produk, merek, atau kategori...">
+      <button><i class="fas fa-search"></i></button>
+    </div>
+    <div class="hdr-actions">
+      <div class="hdr-icon"><i class="fas fa-bell"></i></div>
+      <div class="hdr-icon"><i class="fas fa-envelope"></i></div>
+      <div class="hdr-icon" onclick="alert('Keranjang belanja Anda')">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="badge" id="cartBadge">0</span>
+      </div>
+    </div>
+    <div class="hdr-auth">
+      <button class="btn btn-ghost">Masuk</button>
+      <button class="btn btn-primary">Daftar</button>
+    </div>
+  </div>
+</header>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="wrap">
+    <ul class="nav-list">
+      <li><a href="#" onclick="showHome()"><i class="fas fa-th-large"></i> Semua Kategori</a></li>
+      <li><a href="#" onclick="showCat('Power Tools')"><i class="fas fa-drill"></i> Power Tools</a></li>
+      <li><a href="#" onclick="showCat('Hand Tools')"><i class="fas fa-wrench"></i> Hand Tools</a></li>
+      <li><a href="#" onclick="showCat('Alat Ukur')"><i class="fas fa-ruler"></i> Alat Ukur</a></li>
+      <li><a href="#" onclick="showCat('Kelistrikan')"><i class="fas fa-plug"></i> Kabel & Kelistrikan</a></li>
+      <li><a href="#" onclick="showCat('Lampu')"><i class="fas fa-lightbulb"></i> Lampu & Pencahayaan</a></li>
+      <li><a href="#" class="sale" onclick="showCat('Flash Sale')"><i class="fas fa-fire"></i> Flash Sale</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main class="wrap">
+
+<!-- ━━━ HOME VIEW ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<div id="home-view">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-grid">
+      <div class="hero-main">
+        <div class="hero-bg-img"></div>
+        <div class="hero-body">
+          <div class="hero-chip"><i class="fas fa-bolt"></i> Bulan Perkakas Nasional 2026</div>
+          <h1 class="hero-h">DISKON<br>HINGGA <span>70%</span></h1>
+          <p class="hero-sub">Ribuan alat teknik & kelistrikan original dari brand terpercaya. Gratis ongkir hingga Rp 50.000.</p>
+          <div class="hero-cta">
+            <button class="btn-hero btn-hero-main" onclick="showCat('Flash Sale')">Belanja Sekarang</button>
+            <button class="btn-hero-ghost">Lihat Promo <i class="fas fa-arrow-right"></i></button>
+          </div>
+          <div class="hero-stats">
+            <div>
+              <div class="hero-stat-val">50rb+</div>
+              <div class="hero-stat-lbl">PRODUK</div>
+            </div>
+            <div style="width:1px;background:rgba(255,255,255,.1);"></div>
+            <div>
+              <div class="hero-stat-val">200+</div>
+              <div class="hero-stat-lbl">MEREK</div>
+            </div>
+            <div style="width:1px;background:rgba(255,255,255,.1);"></div>
+            <div>
+              <div class="hero-stat-val">4.9★</div>
+              <div class="hero-stat-lbl">RATING</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-side">
+        <div class="side-card" onclick="alert('Official Store Bosch')">
+          <div>
+            <div class="side-card-tag"><i class="fas fa-certificate"></i> Official Store</div>
+            <h3>Bosch<br>Professional</h3>
+            <p>Garansi resmi 1 tahun. Dijamin 100% original langsung dari distributor.</p>
+          </div>
+          <div class="side-card-footer">Kunjungi Toko <i class="fas fa-arrow-right"></i></div>
+        </div>
+        <div class="side-card" onclick="alert('Bebas Ongkir')">
+          <div>
+            <div class="side-card-tag" style="color:var(--green)"><i class="fas fa-truck"></i> Keuntungan Eksklusif</div>
+            <h3>Bebas<br>Ongkir</h3>
+            <p>Potongan ongkir s.d Rp 50.000 untuk pengiriman kargo ke seluruh Indonesia.</p>
+          </div>
+          <div class="side-card-footer" style="color:var(--green)">Syarat & Ketentuan <i class="fas fa-arrow-right"></i></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FLASH SALE COUNTDOWN -->
+  <div class="promo-strip" onclick="showCat('Flash Sale')">
+    <div class="promo-left">
+      <div class="promo-chip"><i class="fas fa-fire"></i> Flash Sale</div>
+      <div class="promo-h">HARGA <span>GILA-GILAAN</span></div>
+      <div class="promo-sub">Berakhir dalam waktu — rebut sebelum kehabisan!</div>
+    </div>
+    <div class="promo-countdown">
+      <div class="countdown-block"><span class="countdown-num" id="hr">02</span><div class="countdown-lbl">Jam</div></div>
+      <div class="countdown-sep">:</div>
+      <div class="countdown-block"><span class="countdown-num" id="mn">47</span><div class="countdown-lbl">Menit</div></div>
+      <div class="countdown-sep">:</div>
+      <div class="countdown-block"><span class="countdown-num" id="sc">33</span><div class="countdown-lbl">Detik</div></div>
+    </div>
+    <button class="btn btn-primary" style="flex-shrink:0;padding:12px 24px;font-size:14px;">Lihat Semua <i class="fas fa-arrow-right"></i></button>
+  </div>
+
+  <!-- FLASH SALE PRODUCTS -->
+  <section class="section">
+    <div class="section-hdr">
+      <div class="section-title"><span>Flash</span> Sale</div>
+      <a href="#" class="section-all" onclick="showCat('Flash Sale')">Lihat Semua <i class="fas fa-arrow-right"></i></a>
+    </div>
+    <div class="flash-row">
+      <div class="flash-pcard" onclick="showDetail()">
+        <div class="flash-img"><img src="https://images.unsplash.com/photo-1504148455328-c376907d081c?auto=format&fit=crop&w=400&q=80" alt="Bor Bosch"></div>
+        <div class="flash-info">
+          <div class="flash-name">Mesin Bor Listrik Bosch GSB 550 Pro 13mm</div>
+          <div class="flash-price">Rp450.000</div>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <div class="flash-orig">Rp550.000</div>
+            <div class="flash-disc">-18%</div>
+          </div>
+        </div>
+        <div class="flash-bar-wrap">
+          <div class="flash-bar-bg"><div class="flash-bar-fill" style="width:73%"></div></div>
+          <div class="flash-bar-lbl">73% terjual</div>
+        </div>
+      </div>
+      <div class="flash-pcard" onclick="addToCart('Lampu LED Philips 50W')">
+        <div class="flash-img"><img src="https://images.unsplash.com/photo-1550989460-0adf9ea622e2?auto=format&fit=crop&w=400&q=80" alt="Lampu"></div>
+        <div class="flash-info">
+          <div class="flash-name">Lampu Sorot LED Philips 50W BVP150 Outdoor</div>
+          <div class="flash-price">Rp149.000</div>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <div class="flash-orig">Rp185.000</div>
+            <div class="flash-disc">-19%</div>
+          </div>
+        </div>
+        <div class="flash-bar-wrap">
+          <div class="flash-bar-bg"><div class="flash-bar-fill" style="width:88%"></div></div>
+          <div class="flash-bar-lbl">88% terjual</div>
+        </div>
+      </div>
+      <div class="flash-pcard" onclick="addToCart('Multimeter Digital')">
+        <div class="flash-img"><img src="https://images.unsplash.com/photo-1580983546571-0857cb3e86c1?auto=format&fit=crop&w=400&q=80" alt="Multimeter"></div>
+        <div class="flash-info">
+          <div class="flash-name">Digital Multimeter Avometer Pengukur Arus Listrik</div>
+          <div class="flash-price">Rp42.000</div>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <div class="flash-orig">Rp55.000</div>
+            <div class="flash-disc">-24%</div>
+          </div>
+        </div>
+        <div class="flash-bar-wrap">
+          <div class="flash-bar-bg"><div class="flash-bar-fill" style="width:55%"></div></div>
+          <div class="flash-bar-lbl">55% terjual</div>
+        </div>
+      </div>
+      <div class="flash-pcard" onclick="addToCart('Gerinda Maktec')">
+        <div class="flash-img"><img src="https://images.unsplash.com/photo-1572981779307-38b8cabb2407?auto=format&fit=crop&w=400&q=80" alt="Gerinda"></div>
+        <div class="flash-info">
+          <div class="flash-name">Maktec MT90 Mesin Gerinda Tangan 4" 540W</div>
+          <div class="flash-price">Rp299.000</div>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <div class="flash-orig">Rp350.000</div>
+            <div class="flash-disc">-15%</div>
+          </div>
+        </div>
+        <div class="flash-bar-wrap">
+          <div class="flash-bar-bg"><div class="flash-bar-fill" style="width:41%"></div></div>
+          <div class="flash-bar-lbl">41% terjual</div>
+        </div>
+      </div>
+      <div class="flash-pcard" onclick="addToCart('Obeng Set Tekiro')">
+        <div class="flash-img"><img src="https://images.unsplash.com/photo-1530124566582-a618bc2615dc?auto=format&fit=crop&w=400&q=80" alt="Obeng"></div>
+        <div class="flash-info">
+          <div class="flash-name">Tekiro Set Obeng Magnetik 7 Pcs JIS Standard</div>
+          <div class="flash-price">Rp69.000</div>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <div class="flash-orig">Rp85.000</div>
+            <div class="flash-disc">-19%</div>
+          </div>
+        </div>
+        <div class="flash-bar-wrap">
+          <div class="flash-bar-bg"><div class="flash-bar-fill" style="width:62%"></div></div>
+          <div class="flash-bar-lbl">62% terjual</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REKOMENDASI -->
+  <section class="section">
+    <div class="section-hdr">
+      <div class="section-title">Rekomendasi <span>Untuk Anda</span></div>
+      <a href="#" class="section-all">Lihat Semua <i class="fas fa-arrow-right"></i></a>
+    </div>
+    <div class="pgrid">
+
+      <div class="pcard" onclick="showDetail()">
+        <div class="pcard-img">
+          <span class="disc-badge">-18%</span>
+          <img src="https://images.unsplash.com/photo-1504148455328-c376907d081c?auto=format&fit=crop&w=400&q=80" alt="Bor Bosch">
+        </div>
+        <div class="pcard-body">
+          <div class="pcard-name">Mesin Bor Tembok Listrik Bosch GSB 550 Professional 13mm</div>
+          <div class="pcard-price">Rp450.000</div>
+          <div class="pcard-price-orig">Rp550.000</div>
+          <div class="pcard-meta"><i class="fas fa-star star"></i> 4.8 <span style="color:var(--ink-3)">|</span> 750+ terjual</div>
+        </div>
+        <div class="pcard-footer">
+          <button class="btn-cart" onclick="event.stopPropagation();addToCart('Bosch GSB 550')"><i class="fas fa-cart-plus"></i> Keranjang</button>
+        </div>
+      </div>
+
+      <div class="pcard" onclick="addToCart('Lampu Philips 50W')">
+        <div class="pcard-img">
+          <img src="https://images.unsplash.com/photo-1550989460-0adf9ea622e2?auto=format&fit=crop&w=400&q=80" alt="Lampu Philips">
+        </div>
+        <div class="pcard-body">
+          <div class="pcard-name">Lampu Sorot LED Philips 50W BVP150 Outdoor IP65</div>
+          <div class="pcard-price">Rp185.000</div>
+          <div class="pcard-meta"><i class="fas fa-star star"></i> 4.9 <span style="color:var(--ink-3)">|</span> 2,1rb+ terjual</div>
+        </div>
+        <div class="pcard-footer">
+          <button class="btn-cart" onclick="event.stopPropagation();addToCart('Lampu Philips 50W')"><i class="fas fa-cart-plus"></i> Keranjang</button>
+        </div>
+      </div>
+
+      <div class="pcard" onclick="addToCart('Kabel Broco')">
+        <div class="pcard-img">
+          <span class="new-badge">NEW</span>
+          <img src="https://images.unsplash.com/photo-1555664424-778a1e5e1b48?auto=format&fit=crop&w=400&q=80" alt="Kabel">
+        </div>
+        <div class="pcard-body">
+          <div class="pcard-name">Kabel Roll Broco 15 Meter / Stop Kontak Ekstensi SNI</div>
+          <div class="pcard-price">Rp120.000</div>
+          <div class="pcard-meta"><i class="fas fa-star star"></i> 5.0 <span style="color:var(--ink-3)">|</span> 100+ terjual</div>
+        </div>
+        <div class="pcard-footer">
+          <button class="btn-cart" onclick="event.stopPropagation();addToCart('Kabel Broco')"><i class="fas fa-cart-plus"></i> Keranjang</button>
+        </div>
+      </div>
+
+      <div class="pcard" onclick="addToCart('Obeng Tekiro')">
+        <div class="pcard-img">
+          <img src="https://images.unsplash.com/photo-1530124566582-a618bc2615dc?auto=format&fit=crop&w=400&q=80" alt="Obeng Tekiro">
+        </div>
+        <div class="pcard-body">
+          <div class="pcard-name">Tekiro Set Obeng Plus Minus Magnetik (7 Pcs) JIS</div>
+          <div class="pcard-price">Rp85.000</div>
+          <div class="pcard-meta"><i class="fas fa-star star"></i> 4.9 <span style="color:var(--ink-3)">|</span> 4,5rb+ terjual</div>
+        </div>
+        <div class="pcard-footer">
+          <button class="btn-cart" onclick="event.stopPropagation();addToCart('Obeng Tekiro')"><i class="fas fa-cart-plus"></i> Keranjang</button>
+        </div>
+      </div>
+
+      <div class="pcard" onclick="addToCart('Multimeter')">
+        <div class="pcard-img">
+          <span class="disc-badge">Promo</span>
+          <img src="https://images.unsplash.com/photo-1580983546571-0857cb3e86c1?auto=format&fit=crop&w=400&q=80" alt="Multimeter">
+        </div>
+        <div class="pcard-body">
+          <div class="pcard-name">Digital Multimeter Avometer Pengukur Arus Listrik</div>
+          <div class="pcard-price">Rp55.000</div>
+          <div class="pcard-meta"><i class="fas fa-star star"></i> 4.7 <span style="color:var(--ink-3)">|</span> 500+ terjual</div>
+        </div>
+        <div class="pcard-footer">
+          <button class="btn-cart" onclick="event.stopPropagation();addToCart('Multimeter')"><i class="fas fa-cart-plus"></i> Keranjang</button>
+        </div>
+      </div>
+
+      <div class="pcard" onclick="addToCart('Gerinda Maktec')">
+        <div class="pcard-img">
+          <img src="https://images.unsplash.com/photo-1572981779307-38b8cabb2407?auto=format&fit=crop&w=400&q=80" alt="Gerinda">
+        </div>
+        <div class="pcard-body">
+          <div class="pcard-name">Maktec MT90 Mesin Gerinda Tangan 4 Inch 540W</div>
+          <div class="pcard-price">Rp350.000</div>
+          <div class="pcard-meta"><i class="fas fa-star star"></i> 4.9 <span style="color:var(--ink-3)">|</span> 1,2rb+ terjual</div>
+        </div>
+        <div class="pcard-footer">
+          <button class="btn-cart" onclick="event.stopPropagation();addToCart('Gerinda Maktec')"><i class="fas fa-cart-plus"></i> Keranjang</button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</div><!-- /home-view -->
+
+<!-- ━━━ DETAIL VIEW ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<div id="detail-view" style="display:none;">
+  <div class="breadcrumb">
+    <a href="#" onclick="showHome()">Beranda</a>
+    <i class="fas fa-chevron-right"></i>
+    <a href="#" onclick="showCat('Power Tools')">Power Tools</a>
+    <i class="fas fa-chevron-right"></i>
+    <span>Mesin Bor</span>
+  </div>
+  <div class="detail-layout">
+    <!-- Gallery -->
+    <div class="detail-gallery">
+      <div class="main-img">
+        <span class="main-img-badge">-18%</span>
+        <img id="mainImg" src="https://images.unsplash.com/photo-1504148455328-c376907d081c?auto=format&fit=crop&w=700&q=80" alt="Bosch GSB 550">
+      </div>
+      <div class="thumbs">
+        <div class="thumb active" onmouseover="changeImg(this,'https://images.unsplash.com/photo-1504148455328-c376907d081c?auto=format&fit=crop&w=700&q=80')">
+          <img src="https://images.unsplash.com/photo-1504148455328-c376907d081c?auto=format&fit=crop&w=140&q=80" alt="">
+        </div>
+        <div class="thumb" onmouseover="changeImg(this,'https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&w=700&q=80')">
+          <img src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&w=140&q=80" alt="">
+        </div>
+      </div>
+    </div>
+
+    <!-- Info -->
+    <div class="detail-info">
+      <h1 class="detail-title">Mesin Bor Tembok Listrik Bosch GSB 550 Professional 13mm Original Garansi Resmi</h1>
+      <div class="detail-rating">
+        <span><i class="fas fa-star" style="color:#F5C518;margin-right:4px;"></i>4.8 (320 rating)</span>
+        <span>•</span>
+        <span>750+ Terjual</span>
+        <span>•</span>
+        <span>Diskusi (45)</span>
+      </div>
+
+      <div class="detail-price-block">
+        <div class="detail-price">Rp450.000</div>
+        <div class="detail-orig">
+          Rp550.000
+          <span class="detail-orig-disc">Hemat 18%</span>
+        </div>
+      </div>
+
+      <div class="trust-box">
+        <div class="trust-title">Keuntungan Beli di Listrindo Jaya</div>
+        <div class="trust-grid">
+          <div class="trust-item"><div class="trust-icon ti-gold"><i class="fas fa-medal"></i></div> 100% Produk Asli</div>
+          <div class="trust-item"><div class="trust-icon ti-green"><i class="fas fa-shield-alt"></i></div> Garansi Resmi</div>
+          <div class="trust-item"><div class="trust-icon ti-blue"><i class="fas fa-box"></i></div> Packing Aman</div>
+          <div class="trust-item"><div class="trust-icon ti-gray"><i class="fas fa-undo"></i></div> Retur 7 Hari</div>
+        </div>
+      </div>
+
+      <div class="tab-row">
+        <div class="tab active">Detail Produk</div>
+        <div class="tab">Spesifikasi</div>
+        <div class="tab">Ulasan (320)</div>
+      </div>
+      <div class="tab-body">
+        Kondisi: <b>Baru</b> &nbsp;|&nbsp; Min. Pemesanan: <b>1 Buah</b><br><br>
+        Bosch GSB 550 Professional adalah mesin bor impact bertenaga 550 Watt yang andal dan ringkas. Alat yang tepat untuk tukang profesional maupun perbaikan rumahan.<br><br>
+        <b>Keunggulan Produk:</b><br>
+        — Motor 550 W yang bertenaga dan efisien.<br>
+        — Chuck berkunci 13 mm, gagang tambahan & depth stop.<br>
+        — Konstruksi bantalan peluru penuh untuk usia pakai lama.<br>
+        — Putaran bolak-balik (Reversible).<br><br>
+        <i>Barang dijamin 100% Original & Bergaransi Resmi Bosch 1 Tahun.</i>
+      </div>
+    </div>
+
+    <!-- Action Card -->
+    <div class="action-card">
+      <div class="action-label">Atur Jumlah</div>
+      <div class="qty-row">
+        <div class="qty-ctrl">
+          <button class="qty-btn" onclick="chgQty(-1)">−</button>
+          <input class="qty-in" id="dQty" value="1" readonly>
+          <button class="qty-btn" onclick="chgQty(1)">+</button>
+        </div>
+        <div class="qty-stock">Stok: <span>124 tersedia</span></div>
+      </div>
+      <div class="subtotal-row">
+        <span class="subtotal-lbl">Subtotal</span>
+        <span class="subtotal-val" id="dSubtotal">Rp450.000</span>
+      </div>
+      <button class="btn-detail-cart" onclick="addDetailToCart()"><i class="fas fa-cart-plus"></i> Tambah Keranjang</button>
+      <button class="btn-detail-buy" onclick="addDetailToCart(); setTimeout(()=>alert('Mengarahkan ke Checkout...'),400)"><i class="fas fa-bolt"></i> Beli Sekarang</button>
+      <div class="action-secure"><i class="fas fa-lock"></i> Pembayaran 100% Aman & Terenkripsi</div>
+    </div>
+  </div>
+</div><!-- /detail-view -->
+
+<!-- ━━━ CATEGORY VIEW ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<div id="cat-view" style="display:none;">
+  <div class="breadcrumb">
+    <a href="#" onclick="showHome()">Beranda</a>
+    <i class="fas fa-chevron-right"></i>
+    <span id="catBC">Kategori</span>
+  </div>
+  <div class="cat-layout">
+    <!-- Filter Sidebar -->
+    <div class="filter-col">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+        <div class="filter-h">Filter</div>
+        <div class="filter-reset">Reset</div>
+      </div>
+
+      <div class="filter-section-title">Batas Harga</div>
+      <div class="filter-price">
+        <input type="number" placeholder="Rp MIN">
+        <span>—</span>
+        <input type="number" placeholder="Rp MAKS">
+      </div>
+      <div class="filter-div"></div>
+
+      <div class="filter-section-title">Merek</div>
+      <label class="filter-check"><input type="checkbox"><span>Bosch</span></label>
+      <label class="filter-check"><input type="checkbox"><span>Maktec</span></label>
+      <label class="filter-check"><input type="checkbox"><span>Philips</span></label>
+      <label class="filter-check"><input type="checkbox"><span>Tekiro</span></label>
+      <label class="filter-check"><input type="checkbox"><span>Broco</span></label>
+      <a href="#" style="font-size:12px;color:var(--blue);font-weight:600;margin-top:4px;display:block;">+ Lihat Semua</a>
+      <div class="filter-div"></div>
+
+      <div class="filter-section-title">Rating</div>
+      <label class="filter-check"><input type="checkbox"><span><i class="fas fa-star" style="color:#F5C518;font-size:11px;"></i> 4 ke atas</span></label>
+      <label class="filter-check"><input type="checkbox"><span><i class="fas fa-star" style="color:#F5C518;font-size:11px;"></i> 3 ke atas</span></label>
+      <div class="filter-div"></div>
+
+      <div class="filter-section-title">Penawaran</div>
+      <label class="filter-check"><input type="checkbox"><span>Diskon Spesial</span></label>
+      <label class="filter-check"><input type="checkbox"><span>Bebas Ongkir</span></label>
+      <label class="filter-check"><input type="checkbox"><span>Grosir</span></label>
+    </div>
+
+    <!-- Products -->
+    <div class="cat-content">
+      <div class="cat-header">
+        <div class="cat-title" id="catTitle">Power Tools</div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span style="font-size:13px;color:var(--ink-3);">Urutkan:</span>
+          <select class="sort-select">
+            <option>Paling Sesuai</option>
+            <option>Terbaru</option>
+            <option>Harga Terendah</option>
+            <option>Harga Tertinggi</option>
+            <option>Ulasan Terbanyak</option>
+          </select>
+        </div>
+      </div>
+      <div class="pgrid">
+        <div class="pcard" onclick="showDetail()">
+          <div class="pcard-img"><span class="disc-badge">-18%</span><img src="https://images.unsplash.com/photo-1504148455328-c376907d081c?auto=format&fit=crop&w=400&q=80" alt="Bor"></div>
+          <div class="pcard-body"><div class="pcard-name">Mesin Bor Tembok Listrik Bosch GSB 550 Professional 13mm</div><div class="pcard-price">Rp450.000</div><div class="pcard-price-orig">Rp550.000</div><div class="pcard-meta"><i class="fas fa-star star"></i> 4.8 <span style="color:var(--ink-3)">|</span> 750+ terjual</div></div>
+          <div class="pcard-footer"><button class="btn-cart" onclick="event.stopPropagation();addToCart('Bosch GSB 550')"><i class="fas fa-cart-plus"></i> Keranjang</button></div>
+        </div>
+        <div class="pcard" onclick="addToCart('Gerinda Maktec')">
+          <div class="pcard-img"><img src="https://images.unsplash.com/photo-1572981779307-38b8cabb2407?auto=format&fit=crop&w=400&q=80" alt="Gerinda"></div>
+          <div class="pcard-body"><div class="pcard-name">Maktec MT90 Mesin Gerinda Tangan 4 Inch 540W</div><div class="pcard-price">Rp350.000</div><div class="pcard-meta"><i class="fas fa-star star"></i> 4.9 <span style="color:var(--ink-3)">|</span> 1,2rb+ terjual</div></div>
+          <div class="pcard-footer"><button class="btn-cart" onclick="event.stopPropagation();addToCart('Gerinda Maktec')"><i class="fas fa-cart-plus"></i> Keranjang</button></div>
+        </div>
+        <div class="pcard" onclick="addToCart('Impact Wrench')">
+          <div class="pcard-img"><img src="https://images.unsplash.com/photo-1574635677864-4e488102a900?auto=format&fit=crop&w=400&q=80" alt="Wrench"></div>
+          <div class="pcard-body"><div class="pcard-name">Mesin Buka Baut Impact Wrench Cordless Baterai 20V</div><div class="pcard-price">Rp650.000</div><div class="pcard-meta"><i class="fas fa-star star"></i> 4.6 <span style="color:var(--ink-3)">|</span> 300+ terjual</div></div>
+          <div class="pcard-footer"><button class="btn-cart" onclick="event.stopPropagation();addToCart('Impact Wrench')"><i class="fas fa-cart-plus"></i> Keranjang</button></div>
+        </div>
+        <div class="pcard" onclick="addToCart('Mata Bor Besi')">
+          <div class="pcard-img"><img src="https://images.unsplash.com/photo-1508212173163-9ee810df6dd6?auto=format&fit=crop&w=400&q=80" alt="Mata Bor"></div>
+          <div class="pcard-body"><div class="pcard-name">Set Mata Bor Besi Baja HSS Twist Drill Bit (13 Pcs)</div><div class="pcard-price">Rp45.000</div><div class="pcard-meta"><i class="fas fa-star star"></i> 4.9 <span style="color:var(--ink-3)">|</span> 1,5rb+ terjual</div></div>
+          <div class="pcard-footer"><button class="btn-cart" onclick="event.stopPropagation();addToCart('Mata Bor Besi')"><i class="fas fa-cart-plus"></i> Keranjang</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div><!-- /cat-view -->
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <a href="#" class="logo" onclick="showHome()">
+          <div class="logo-bolt"><i class="fas fa-bolt"></i></div>Volt<span>Gear</span>
+        </a>
+        <p class="footer-logo-desc">Platform e-commerce terpercaya untuk kebutuhan alat teknik, kelistrikan, dan perkakas industri di Indonesia.</p>
+        <div class="footer-socials">
+          <div class="social-btn"><i class="fab fa-instagram"></i></div>
+          <div class="social-btn"><i class="fab fa-facebook"></i></div>
+          <div class="social-btn"><i class="fab fa-youtube"></i></div>
+          <div class="social-btn"><i class="fab fa-tiktok"></i></div>
+        </div>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Listrindo Jaya</div>
+        <ul>
+          <li><a href="#">Tentang Kami</a></li>
+          <li><a href="#">Karir</a></li>
+          <li><a href="#">Blog & Tips</a></li>
+          <li><a href="#">Mitra Toko</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Layanan</div>
+        <ul>
+          <li><a href="#">Cara Berbelanja</a></li>
+          <li><a href="#">Metode Pembayaran</a></li>
+          <li><a href="#">Jaminan Aman</a></li>
+          <li><a href="#">Lacak Pesanan</a></li>
+          <li><a href="#">Kebijakan Retur</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Pembayaran</div>
+        <div class="pay-chips">
+          <span class="pay-chip">BCA</span>
+          <span class="pay-chip">Mandiri</span>
+          <span class="pay-chip">BNI</span>
+          <span class="pay-chip">OVO</span>
+          <span class="pay-chip">GoPay</span>
+          <span class="pay-chip">COD</span>
+        </div>
+        <div class="footer-col-title" style="margin-top:20px;">Pengiriman</div>
+        <div class="pay-chips">
+          <span class="pay-chip">JNE</span>
+          <span class="pay-chip">SiCepat</span>
+          <span class="pay-chip">GoSend</span>
+          <span class="pay-chip">Kargo</span>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 PT Listrindo Jaya Teknik Indonesia. Semua hak dilindungi.</span>
+      <div style="display:flex;gap:16px;">
+        <a href="#" style="color:var(--ink-3);">Kebijakan Privasi</a>
+        <a href="#" style="color:var(--ink-3);">Syarat & Ketentuan</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+let cart = 0;
+const toastEl = document.getElementById('toast');
+const toastMsg = document.getElementById('toastMsg');
+let toastTimer;
+
+function addToCart(name) {
+  cart++;
+  document.getElementById('cartBadge').innerText = cart;
+  toastMsg.innerText = name + ' masuk keranjang';
+  toastEl.style.display = 'flex';
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { toastEl.style.display = 'none'; }, 2800);
+}
+
+function showHome() {
+  document.getElementById('home-view').style.display = '';
+  document.getElementById('detail-view').style.display = 'none';
+  document.getElementById('cat-view').style.display = 'none';
+  window.scrollTo(0, 0);
+}
+function showDetail() {
+  document.getElementById('home-view').style.display = 'none';
+  document.getElementById('detail-view').style.display = '';
+  document.getElementById('cat-view').style.display = 'none';
+  window.scrollTo(0, 0);
+}
+function showCat(name) {
+  document.getElementById('home-view').style.display = 'none';
+  document.getElementById('detail-view').style.display = 'none';
+  document.getElementById('cat-view').style.display = '';
+  document.getElementById('catBC').innerText = name;
+  document.getElementById('catTitle').innerText = name;
+  window.scrollTo(0, 0);
+}
+
+function changeImg(el, src) {
+  document.getElementById('mainImg').src = src;
+  document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+}
+
+const basePrice = 450000;
+function chgQty(d) {
+  const inp = document.getElementById('dQty');
+  let v = parseInt(inp.value) + d;
+  if (v < 1) v = 1; if (v > 124) v = 124;
+  inp.value = v;
+  document.getElementById('dSubtotal').innerText = 'Rp' + (v * basePrice).toLocaleString('id-ID');
+}
+function addDetailToCart() {
+  addToCart('Bor Bosch GSB 550 (' + document.getElementById('dQty').value + ' pcs)');
+}
+
+/* Countdown */
+let total = 2 * 3600 + 47 * 60 + 33;
+function tick() {
+  if (total <= 0) return;
+  total--;
+  const h = String(Math.floor(total / 3600)).padStart(2, '0');
+  const m = String(Math.floor((total % 3600) / 60)).padStart(2, '0');
+  const s = String(total % 60).padStart(2, '0');
+  document.getElementById('hr').innerText = h;
+  document.getElementById('mn').innerText = m;
+  document.getElementById('sc').innerText = s;
+}
+setInterval(tick, 1000);
+
+/* Tab switching on detail */
+document.addEventListener('click', function(e) {
+  if (e.target.classList.contains('tab')) {
+    const tabs = e.target.closest('.tab-row').querySelectorAll('.tab');
+    tabs.forEach(t => t.classList.remove('active'));
+    e.target.classList.add('active');
+  }
+});
+</script>
+</body>
+</html>
