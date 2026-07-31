@@ -846,6 +846,56 @@ footer {
   .hero-body { padding: var(--sp-6) var(--sp-4); }  /* 24px 16px — safe at 360px */
 }
 
+/* --- MOBILE BOTTOM NAVIGATION BAR --- */
+.mobile-bottom-nav {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: #ffffff;
+  border-top: 1px solid var(--line, #e2e8f0);
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.08);
+  z-index: 999;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0 8px;
+}
+
+.mobile-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink-3, #64748b);
+  text-decoration: none;
+  font-size: 11px;
+  font-weight: 500;
+  gap: 3px;
+  flex: 1;
+  height: 100%;
+  transition: color 0.15s ease;
+}
+
+.mobile-nav-item i {
+  font-size: 18px;
+}
+
+.mobile-nav-item.active, .mobile-nav-item:hover {
+  color: var(--brand, #025cca);
+  font-weight: 700;
+}
+
+@media (max-width: 768px) {
+  body {
+    padding-bottom: 60px; /* Space for bottom navigation */
+  }
+  .mobile-bottom-nav {
+    display: flex;
+  }
+}
+
 /* --- SKELETON LOADING --- */
 @keyframes pulse {
   0%, 100% { opacity: 1; }

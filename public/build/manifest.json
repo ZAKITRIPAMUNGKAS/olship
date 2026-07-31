@@ -4,7 +4,7 @@
     "name": "module.esm"
   },
   "resources/css/app.css": {
-    "file": "assets/app-lDX23vSN.css",
+    "file": "assets/app-BX-9vIHT.css",
     "name": "app",
     "names": [
       "app.css"
@@ -22,7 +22,7 @@
     "isEntry": true
   },
   "resources/css/components/product-detail.css": {
-    "file": "assets/product-detail-D6fjQdgN.css",
+    "file": "assets/product-detail-Dx26EAda.css",
     "name": "product-detail",
     "names": [
       "product-detail.css"
@@ -31,7 +31,7 @@
     "isEntry": true
   },
   "resources/css/listrindojaya.css": {
-    "file": "assets/listrindojaya-BDJ0Ze0P.css",
+    "file": "assets/listrindojaya-Dgh2jaUE.css",
     "name": "listrindojaya",
     "names": [
       "listrindojaya.css"

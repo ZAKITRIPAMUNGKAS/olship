@@ -187,23 +187,20 @@
     </div>
   </header>
 
-  <!-- NAV -->
+  <!-- NAV DESKTOP & MOBILE ACCORDION -->
   <nav class="nav" x-data="{ open: false }">
     <div class="wrap" style="position:relative;">
       <button class="nav-hamburger" @click="open = !open" aria-label="Menu">
-        <i class="fas fa-bars"></i>
+        <i class="fas fa-bars"></i> Kategori & Menu
       </button>
       <ul class="nav-list" :class="open ? 'nav-open' : ''">
         <li><a href="{{ route('home') }}"><i class="fas fa-th-large"></i> Semua Kategori</a></li>
         <li><a href="{{ route('categories.show', 'power-tools') }}"><i class="fas fa-drill"></i> Power Tools</a></li>
         <li><a href="{{ route('categories.show', 'hand-tools') }}"><i class="fas fa-wrench"></i> Hand Tools</a></li>
         <li><a href="{{ route('categories.show', 'alat-ukur') }}"><i class="fas fa-ruler"></i> Alat Ukur</a></li>
-        <li><a href="{{ route('categories.show', 'kelistrikan') }}"><i class="fas fa-plug"></i> Kabel & Kelistrikan</a>
-        </li>
-        <li><a href="{{ route('categories.show', 'lampu') }}"><i class="fas fa-lightbulb"></i> Lampu & Pencahayaan</a>
-        </li>
-        <li><a href="{{ route('categories.show', 'frozen-food') }}"><i class="fas fa-snowflake"></i> Frozen Food</a>
-        </li>
+        <li><a href="{{ route('categories.show', 'kelistrikan') }}"><i class="fas fa-plug"></i> Kabel & Kelistrikan</a></li>
+        <li><a href="{{ route('categories.show', 'lampu') }}"><i class="fas fa-lightbulb"></i> Lampu & Pencahayaan</a></li>
+        <li><a href="{{ route('categories.show', 'frozen-food') }}"><i class="fas fa-snowflake"></i> Frozen Food</a></li>
         <li><a href="{{ route('flash-sale') }}" class="sale"><i class="fas fa-fire"></i> Flash Sale</a></li>
         @auth
         <li class="nav-auth-mobile">
@@ -220,6 +217,40 @@
       </ul>
     </div>
   </nav>
+
+  <!-- MOBILE BOTTOM NAVIGATION BAR -->
+  <div class="mobile-bottom-nav">
+    <a href="{{ route('home') }}" class="mobile-nav-item {{ request()->routeIs('home') ? 'active' : '' }}">
+      <i class="fas fa-home"></i>
+      <span>Beranda</span>
+    </a>
+    <a href="{{ route('flash-sale') }}" class="mobile-nav-item {{ request()->routeIs('flash-sale') ? 'active' : '' }}">
+      <i class="fas fa-bolt"></i>
+      <span>Promo</span>
+    </a>
+    <a href="{{ route('cart.index') }}" class="mobile-nav-item {{ request()->routeIs('cart.*') ? 'active' : '' }}" style="position:relative;">
+      <i class="fas fa-shopping-cart"></i>
+      <span>Keranjang</span>
+    </a>
+    @auth
+      @if(auth()->user()->hasAnyRole(['super_admin', 'admin', 'staff']))
+        <a href="{{ route('admin.dashboard') }}" class="mobile-nav-item {{ request()->routeIs('admin.*') ? 'active' : '' }}">
+          <i class="fas fa-user-shield"></i>
+          <span>Admin</span>
+        </a>
+      @else
+        <a href="{{ route('dashboard.index') }}" class="mobile-nav-item {{ request()->routeIs('dashboard.*') ? 'active' : '' }}">
+          <i class="fas fa-user"></i>
+          <span>Akun</span>
+        </a>
+      @endif
+    @else
+      <a href="{{ route('login') }}" class="mobile-nav-item {{ request()->routeIs('login') ? 'active' : '' }}">
+        <i class="fas fa-user"></i>
+        <span>Masuk</span>
+      </a>
+    @endauth
+  </div>
 
   <main class="wrap">
     @yield('content')
