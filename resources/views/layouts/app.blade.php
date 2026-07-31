@@ -187,13 +187,23 @@
     </div>
   </header>
 
-  <!-- NAV DESKTOP & MOBILE ACCORDION -->
-  <nav class="nav" x-data="{ open: false }">
-    <div class="wrap" style="position:relative;">
-      <button class="nav-hamburger" @click="open = !open" aria-label="Menu">
-        <i class="fas fa-bars"></i> Kategori & Menu
-      </button>
-      <ul class="nav-list" :class="open ? 'nav-open' : ''">
+  <!-- NAV DESKTOP & MOBILE HORIZONTAL CATEGORY SCROLL -->
+  <nav class="nav">
+    <div class="wrap">
+      <!-- Mobile Category Chips (Horizontal Scrollable Pill Bar) -->
+      <div class="mobile-cat-scroll">
+        <a href="{{ route('home') }}" class="mobile-cat-pill {{ request()->routeIs('home') ? 'active' : '' }}"><i class="fas fa-th-large"></i> Semua</a>
+        <a href="{{ route('categories.show', 'power-tools') }}" class="mobile-cat-pill"><i class="fas fa-drill"></i> Power Tools</a>
+        <a href="{{ route('categories.show', 'hand-tools') }}" class="mobile-cat-pill"><i class="fas fa-wrench"></i> Hand Tools</a>
+        <a href="{{ route('categories.show', 'alat-ukur') }}" class="mobile-cat-pill"><i class="fas fa-ruler"></i> Alat Ukur</a>
+        <a href="{{ route('categories.show', 'kelistrikan') }}" class="mobile-cat-pill"><i class="fas fa-plug"></i> Kelistrikan</a>
+        <a href="{{ route('categories.show', 'lampu') }}" class="mobile-cat-pill"><i class="fas fa-lightbulb"></i> Lampu</a>
+        <a href="{{ route('categories.show', 'frozen-food') }}" class="mobile-cat-pill"><i class="fas fa-snowflake"></i> Frozen Food</a>
+        <a href="{{ route('flash-sale') }}" class="mobile-cat-pill sale"><i class="fas fa-fire"></i> Flash Sale</a>
+      </div>
+
+      <!-- Desktop Nav List -->
+      <ul class="nav-list desktop-only">
         <li><a href="{{ route('home') }}"><i class="fas fa-th-large"></i> Semua Kategori</a></li>
         <li><a href="{{ route('categories.show', 'power-tools') }}"><i class="fas fa-drill"></i> Power Tools</a></li>
         <li><a href="{{ route('categories.show', 'hand-tools') }}"><i class="fas fa-wrench"></i> Hand Tools</a></li>
@@ -202,18 +212,6 @@
         <li><a href="{{ route('categories.show', 'lampu') }}"><i class="fas fa-lightbulb"></i> Lampu & Pencahayaan</a></li>
         <li><a href="{{ route('categories.show', 'frozen-food') }}"><i class="fas fa-snowflake"></i> Frozen Food</a></li>
         <li><a href="{{ route('flash-sale') }}" class="sale"><i class="fas fa-fire"></i> Flash Sale</a></li>
-        @auth
-        <li class="nav-auth-mobile">
-          @if(auth()->user()->hasAnyRole(['super_admin', 'admin', 'staff']))
-            <a href="{{ route('admin.dashboard') }}"><i class="fas fa-user-shield"></i> Panel Admin Toko</a>
-          @else
-            <a href="{{ route('dashboard.index') }}"><i class="fas fa-user"></i> Dashboard Saya</a>
-          @endif
-        </li>
-        @else
-        <li class="nav-auth-mobile"><a href="{{ route('login') }}"><i class="fas fa-sign-in-alt"></i> Masuk</a></li>
-        <li class="nav-auth-mobile"><a href="{{ route('register') }}"><i class="fas fa-user-plus"></i> Daftar</a></li>
-        @endauth
       </ul>
     </div>
   </nav>

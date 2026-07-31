@@ -846,6 +846,61 @@ footer {
   .hero-body { padding: var(--sp-6) var(--sp-4); }  /* 24px 16px — safe at 360px */
 }
 
+/* --- MOBILE CATEGORY SCROLL BAR (HORIZONTAL CHIPS) --- */
+.mobile-cat-scroll {
+  display: none;
+  overflow-x: auto;
+  white-space: nowrap;
+  gap: 8px;
+  padding: 8px 0;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* Firefox */
+}
+.mobile-cat-scroll::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
+}
+
+.mobile-cat-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  background: var(--bg, #f1f5f9);
+  border: 1px solid var(--line, #e2e8f0);
+  color: var(--ink-2, #334155);
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+
+.mobile-cat-pill i {
+  font-size: 11px;
+  color: var(--brand, #025cca);
+}
+
+.mobile-cat-pill.active {
+  background: var(--brand, #025cca);
+  color: #ffffff;
+  border-color: var(--brand, #025cca);
+}
+
+.mobile-cat-pill.active i {
+  color: #ffffff;
+}
+
+.mobile-cat-pill.sale {
+  color: var(--red, #e11d48);
+  border-color: #fecaca;
+  background: #fff5f5;
+}
+
+.mobile-cat-pill.sale i {
+  color: var(--red, #e11d48);
+}
+
 /* --- MOBILE BOTTOM NAVIGATION BAR --- */
 .mobile-bottom-nav {
   display: none;
@@ -891,8 +946,26 @@ footer {
   body {
     padding-bottom: 60px; /* Space for bottom navigation */
   }
+  .strip {
+    display: none; /* Sembunyikan top strip di mobile agar hemat tempat */
+  }
+  .desktop-only {
+    display: none !important;
+  }
+  .mobile-cat-scroll {
+    display: flex;
+  }
   .mobile-bottom-nav {
     display: flex;
+  }
+  .logo img {
+    height: 38px !important;
+  }
+  .header {
+    padding: 10px 0;
+  }
+  .nav {
+    padding: 0;
   }
 }
 
