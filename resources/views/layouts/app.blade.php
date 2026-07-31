@@ -254,71 +254,82 @@
     @yield('content')
   </main>
 
-  <footer>
+  <footer class="site-footer">
     <div class="wrap footer-grid">
-      <div class="footer-col">
-        <a href="#" class="logo" style="display:flex; align-items:center; margin-bottom:12px; gap:10px;">
-          <img src="{{ asset('images/logo.png') }}" alt="Listrindo Jaya" style="height:40px; width:auto; object-fit:contain;">
-          <span style="height:24px; width:1px; background:var(--border, #cbd5e1);"></span>
-          <img src="{{ asset('images/desain_tanpa_judul.png') }}" alt="Quin Food Nusantara" style="height:40px; width:auto; object-fit:contain; border-radius:4px;">
+      <div class="footer-col footer-brand-col">
+        <a href="{{ route('home') }}" class="footer-logo-link">
+          <img src="{{ asset('images/logo.png') }}" alt="Listrindo Jaya" class="footer-logo-img">
+          <span class="footer-logo-divider"></span>
+          <img src="{{ asset('images/desain_tanpa_judul.png') }}" alt="Quin Food Nusantara" class="footer-logo-img rounded">
         </a>
         <p class="footer-logo-desc">Pusat perkakas teknik profesional & frozen food berkualitas terlengkap dengan jaminan 100% original & higienis.</p>
         <div class="footer-socials">
-          <div class="social-btn"><i class="fab fa-facebook-f"></i></div>
-          <div class="social-btn"><i class="fab fa-instagram"></i></div>
-          <div class="social-btn"><i class="fab fa-twitter"></i></div>
-          <div class="social-btn"><i class="fab fa-youtube"></i></div>
+          <a href="#" class="social-btn" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="social-btn" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="social-btn" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="social-btn" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
         </div>
       </div>
+
       <div class="footer-col">
         <div class="footer-col-title">Perusahaan</div>
-        <ul>
-          <li><a href="#">Tentang Kami</a></li>
-          <li><a href="#">Karir</a></li>
-          <li><a href="#">Blog</a></li>
+        <ul class="footer-menu">
+          <li><a href="{{ route('home') }}">Tentang Kami</a></li>
           <li><a href="#">Official Store</a></li>
+          <li><a href="{{ route('terms') }}">Syarat & Ketentuan</a></li>
+          <li><a href="{{ route('privacy') }}">Kebijakan Privasi</a></li>
         </ul>
       </div>
+
       <div class="footer-col">
-        <div class="footer-col-title">Bantuan</div>
-        <ul>
+        <div class="footer-col-title">Layanan Pelanggan</div>
+        <ul class="footer-menu">
           <li><a href="#">Pusat Bantuan</a></li>
-          <li><a href="#">Syarat & Ketentuan</a></li>
-          <li><a href="#">Kebijakan Privasi</a></li>
+          <li><a href="#">Cara Pembelian</a></li>
+          <li><a href="#">Lacak Pengiriman</a></li>
           <li><a href="#">Hubungi Kami</a></li>
         </ul>
       </div>
+
       <div class="footer-col">
-        <div class="footer-col-title">Pembayaran & Pengiriman</div>
-        <div class="pay-chips">
-          {{-- Banks --}}
-          @foreach(config('payment.banks') as $bank)
-            <div class="pay-chip" title="{{ $bank['name'] }}">
-              <img src="{{ asset($bank['logo']) }}" alt="{{ $bank['name'] }}" loading="lazy">
-            </div>
-          @endforeach
+        <div class="footer-col-title">Pembayaran & Ekspedisi</div>
+        <div class="pay-chips-container">
+          <div class="pay-chips-label">Metode Pembayaran</div>
+          <div class="pay-chips">
+            {{-- Banks --}}
+            @foreach(config('payment.banks') as $bank)
+              <div class="pay-chip" title="{{ $bank['name'] }}">
+                <img src="{{ asset($bank['logo']) }}" alt="{{ $bank['name'] }}" loading="lazy">
+              </div>
+            @endforeach
 
-          {{-- Wallets --}}
-          @foreach(config('payment.wallets') as $wallet)
-            <div class="pay-chip" title="{{ $wallet['name'] }}">
-              <img src="{{ asset($wallet['logo']) }}" alt="{{ $wallet['name'] }}" loading="lazy">
-            </div>
-          @endforeach
+            {{-- Wallets --}}
+            @foreach(config('payment.wallets') as $wallet)
+              <div class="pay-chip" title="{{ $wallet['name'] }}">
+                <img src="{{ asset($wallet['logo']) }}" alt="{{ $wallet['name'] }}" loading="lazy">
+              </div>
+            @endforeach
+          </div>
 
-          {{-- Shipping --}}
-          @foreach(config('payment.shipping') as $shipping)
-            <div class="pay-chip" title="{{ $shipping['name'] }}">
-              <img src="{{ asset($shipping['logo']) }}" alt="{{ $shipping['name'] }}" loading="lazy">
-            </div>
-          @endforeach
+          <div class="pay-chips-label" style="margin-top: 12px;">Mitra Logistik</div>
+          <div class="pay-chips">
+            {{-- Shipping --}}
+            @foreach(config('payment.shipping') as $shipping)
+              <div class="pay-chip" title="{{ $shipping['name'] }}">
+                <img src="{{ asset($shipping['logo']) }}" alt="{{ $shipping['name'] }}" loading="lazy">
+              </div>
+            @endforeach
+          </div>
         </div>
       </div>
     </div>
+
     <div class="wrap footer-bottom">
-      <div>&copy; 2026 Listrindo Jaya Elektrik. All rights reserved.</div>
-      <div style="display:flex;gap:20px;">
-        <a href="#">Indonesia</a>
-        <a href="#">English</a>
+      <div>&copy; {{ date('Y') }} <strong>Listrindo Jaya Elektrik</strong>. All rights reserved.</div>
+      <div class="footer-bottom-links">
+        <a href="{{ route('terms') }}">Syarat & Ketentuan</a>
+        <span>&bull;</span>
+        <a href="{{ route('privacy') }}">Privasi</a>
       </div>
     </div>
   </footer>
