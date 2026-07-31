@@ -1,0 +1,72 @@
+{
+  "_module.esm-CB5e3CCo.js": {
+    "file": "assets/module.esm-CB5e3CCo.js",
+    "name": "module.esm"
+  },
+  "resources/css/app.css": {
+    "file": "assets/app-lDX23vSN.css",
+    "name": "app",
+    "names": [
+      "app.css"
+    ],
+    "src": "resources/css/app.css",
+    "isEntry": true
+  },
+  "resources/css/components/cart.css": {
+    "file": "assets/cart-B9PzZcNX.css",
+    "name": "cart",
+    "names": [
+      "cart.css"
+    ],
+    "src": "resources/css/components/cart.css",
+    "isEntry": true
+  },
+  "resources/css/components/product-detail.css": {
+    "file": "assets/product-detail-D6fjQdgN.css",
+    "name": "product-detail",
+    "names": [
+      "product-detail.css"
+    ],
+    "src": "resources/css/components/product-detail.css",
+    "isEntry": true
+  },
+  "resources/css/listrindojaya.css": {
+    "file": "assets/listrindojaya-BDJ0Ze0P.css",
+    "name": "listrindojaya",
+    "names": [
+      "listrindojaya.css"
+    ],
+    "src": "resources/css/listrindojaya.css",
+    "isEntry": true
+  },
+  "resources/js/admin.js": {
+    "file": "assets/admin-av6EeGpX.js",
+    "name": "admin",
+    "src": "resources/js/admin.js",
+    "isEntry": true,
+    "imports": [
+      "_module.esm-CB5e3CCo.js"
+    ]
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-BG1X-5Ft.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true,
+    "imports": [
+      "_module.esm-CB5e3CCo.js"
+    ]
+  },
+  "resources/js/cart.js": {
+    "file": "assets/cart-B7mNZ_Z-.js",
+    "name": "cart",
+    "src": "resources/js/cart.js",
+    "isEntry": true
+  },
+  "resources/js/ui-admin.js": {
+    "file": "assets/ui-admin-Cgj9mTqR.js",
+    "name": "ui-admin",
+    "src": "resources/js/ui-admin.js",
+    "isEntry": true
+  }
+}
