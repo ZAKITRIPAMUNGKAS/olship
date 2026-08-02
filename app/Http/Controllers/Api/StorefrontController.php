@@ -56,7 +56,7 @@ class StorefrontController extends Controller
                         'sku'         => $p->sku,
                         'price'       => (float) $p->price,
                         'price_idr'   => 'Rp ' . number_format($p->price, 0, ',', '.'),
-                        'description' => $p->description ?? $p->short_description,
+                        'description' => trim(strip_tags($p->description ?? $p->short_description ?? '')),
                         'image_url'   => $p->image_url,
                         'gallery'     => $p->images->pluck('image_path')->map(fn($p) => asset('storage/' . $p))->values(),
                         'category'    => $p->category ? [
