@@ -22,7 +22,7 @@ class Product extends Model
         'length', 'width', 'height', 'condition', 'is_active',
         'is_featured', 'is_digital', 'meta_title', 'meta_description',
         'total_sold', 'total_views', 'rating_avg', 'rating_count',
-        'last_stock_sync_at'
+        'last_stock_sync_at', 'image_url_override'
     ];
 
     protected $appends = ['image_url'];
@@ -100,16 +100,38 @@ class Product extends Model
 
     public function getImageUrlAttribute()
     {
-        $primary = $this->primaryImage;
+        // Priority 1: Override URL from WMS (always a full URL)
+        if (!empty($this->image_url_override)) {
+            return $this->image_url_override;
+        }
+
+        // Priority 2: Primary image from product_images table
+        $primary = $this->relationLoaded('primaryImage')
+            ? $this->getRelation('primaryImage')
+            : $this->primaryImage;
+
         if ($primary) {
+            // Support both full URLs (synced from WMS) and relative storage paths
+            if (filter_var($primary->image_path, FILTER_VALIDATE_URL)) {
+                return $primary->image_path;
+            }
             return asset('storage/' . $primary->image_path);
         }
 
-        $first = $this->images->first();
+        // Priority 3: First image from gallery
+        $images = $this->relationLoaded('images')
+            ? $this->getRelation('images')
+            : $this->images;
+
+        $first = $images->first();
         if ($first) {
+            if (filter_var($first->image_path, FILTER_VALIDATE_URL)) {
+                return $first->image_path;
+            }
             return asset('storage/' . $first->image_path);
         }
 
+        // Fallback: placeholder with product name
         return 'https://placehold.co/400x400?text=' . urlencode($this->name);
     }
 }

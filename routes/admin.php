@@ -23,6 +23,8 @@ Route::prefix('admin')
     // ── PRODUK ────────────────────────────────────────────────────
     Route::middleware('permission:products.view')->group(function () {
         Route::resource('products', ProductController::class);
+        Route::post('products/{product}/toggle-status', [ProductController::class, 'toggleStatus'])
+            ->name('products.toggle-status');
         Route::post('products/bulk', [ProductController::class, 'bulk'])
             ->name('products.bulk');
         Route::post('products/import', [ProductController::class, 'import'])

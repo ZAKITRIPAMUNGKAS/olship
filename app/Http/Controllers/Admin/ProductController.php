@@ -173,6 +173,19 @@ class ProductController extends Controller
         return Excel::download(new ProductsExport, 'products_' . now()->format('Y-m-d') . '.csv', \Maatwebsite\Excel\Excel::CSV);
     }
 
+    public function toggleStatus(Product $product)
+    {
+        $product->update([
+            'is_active' => !$product->is_active
+        ]);
+
+        return response()->json([
+            'success'   => true,
+            'is_active' => $product->is_active,
+            'message'   => 'Status produk ' . ($product->is_active ? 'diaktifkan (ON)' : 'dinonaktifkan (OFF)')
+        ]);
+    }
+
     public function import(Request $request)
     {
         $request->validate(['file' => 'required|file|mimes:csv,txt']);

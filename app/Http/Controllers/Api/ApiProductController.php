@@ -25,9 +25,14 @@ class ApiProductController extends Controller
     public function syncStock(Request $request)
     {
         $data = $request->validate([
-            'kode_barang'   => 'required|string|max:100',
-            'total_stock'   => 'required|integer|min:0',
-            'calculated_at' => 'required|date_format:Y-m-d\TH:i:s\Z',
+            'kode_barang'        => 'required|string|max:100',
+            'total_stock'        => 'required|integer|min:0',
+            'calculated_at'      => 'required|date_format:Y-m-d\TH:i:s\Z',
+            'image_url'          => 'nullable|string',
+            'gallery_image_urls' => 'nullable|array',
+            'deskripsi'          => 'nullable|string',
+            'nama'               => 'nullable|string',
+            'harga'              => 'nullable|numeric',
         ]);
 
         $sku = $data['kode_barang'];
@@ -39,54 +44,81 @@ class ApiProductController extends Controller
 
         $product = Product::where('sku', $sku)->first();
 
+        $updateData = [
+            'stock'               => $totalStock,
+            'last_stock_sync_at'  => $calculatedAt,
+        ];
+
+        if ($request->filled('image_url')) {
+            $updateData['image_url_override'] = $request->input('image_url');
+        }
+        if ($request->filled('nama')) {
+            $updateData['name'] = $request->input('nama');
+        }
+        if ($request->filled('harga')) {
+            $updateData['price'] = $request->input('harga');
+        }
+        if ($request->filled('deskripsi')) {
+            $updateData['description'] = $request->input('deskripsi');
+        }
+
         if (!$product) {
             $category = \App\Models\Category::first();
             $brand = \App\Models\Brand::first();
             $seller = \App\Models\User::first();
 
-            $product = Product::create([
-                'seller_id'           => $seller ? $seller->id : 1,
-                'category_id'         => $category ? $category->id : 1,
-                'brand_id'            => $brand ? $brand->id : null,
-                'name'                => $request->input('nama', 'Produk ' . $sku),
-                'sku'                 => $sku,
-                'price'               => $request->input('harga', 0),
-                'stock'               => $totalStock,
-                'is_active'           => true,
-                'last_stock_sync_at'  => $calculatedAt,
-            ]);
+            $catId = $category ? $category->id : 1;
+            $productName = $request->input('nama', 'Produk ' . $sku);
+            $generatedSku = \App\Services\SkuGeneratorService::generateSku($catId, $productName, $sku);
 
-            $logger->info("Stock Sync Auto-Created Product: SKU [{$sku}] added to Olshop with stock {$totalStock}.");
+            $createData = array_merge([
+                'seller_id'   => $seller ? $seller->id : 1,
+                'category_id' => $catId,
+                'brand_id'    => $brand ? $brand->id : null,
+                'name'        => $productName,
+                'sku'         => $generatedSku,
+                'price'       => $request->input('harga', 0),
+                'is_active'   => true,
+            ], $updateData);
 
-            return response()->json([
-                'message' => 'Product created and stock synced successfully',
-                'product_id' => $product->id
-            ], 201);
+            $product = Product::create($createData);
+
+            $logger->info("Stock Sync Auto-Created Product: SKU [{$generatedSku}] (WMS Code: {$sku}) added to Olshop.");
+        } else {
+            // Validate timestamp to prevent race conditions
+            if ($product->last_stock_sync_at) {
+                $lastSync = Carbon::parse($product->last_stock_sync_at);
+                if ($calculatedAt->lte($lastSync)) {
+                    $logger->info("Stock Sync Skipped (Stale Data): SKU [{$sku}] incoming computed_at [{$calculatedAt->toIso8601String()}] is older or equal to last sync [{$lastSync->toIso8601String()}]");
+                    return response()->json([
+                        'message' => 'Skipped: stale data'
+                    ], 200);
+                }
+            }
+
+            $oldStock = $product->stock;
+            $product->update($updateData);
+            $logger->info("Stock Sync Success: SKU [{$sku}] updated from {$oldStock} to {$totalStock}. calculated_at: [{$calculatedAt->toIso8601String()}]");
         }
 
-        // Validate timestamp to prevent race conditions
-        if ($product->last_stock_sync_at) {
-            $lastSync = Carbon::parse($product->last_stock_sync_at);
-            if ($calculatedAt->lte($lastSync)) {
-                $logger->info("Stock Sync Skipped (Stale Data): SKU [{$sku}] incoming computed_at [{$calculatedAt->toIso8601String()}] is older or equal to last sync [{$lastSync->toIso8601String()}]");
-                return response()->json([
-                    'message' => 'Skipped: stale data'
-                ], 200);
+        // Sync Product Gallery Images
+        if ($request->has('gallery_image_urls') && is_array($request->input('gallery_image_urls'))) {
+            $galleryUrls = array_filter($request->input('gallery_image_urls'));
+            if (!empty($galleryUrls)) {
+                $product->images()->delete();
+                foreach ($galleryUrls as $idx => $url) {
+                    $product->images()->create([
+                        'image_path' => $url,
+                        'is_primary' => ($idx === 0),
+                        'sort_order' => $idx,
+                    ]);
+                }
             }
         }
 
-        $oldStock = $product->stock;
-        
-        // Update product stock and timestamp
-        $product->update([
-            'stock' => $totalStock,
-            'last_stock_sync_at' => $calculatedAt
-        ]);
-
-        $logger->info("Stock Sync Success: SKU [{$sku}] updated from {$oldStock} to {$totalStock}. calculated_at: [{$calculatedAt->toIso8601String()}]");
-
         return response()->json([
-            'message' => 'Stock updated successfully'
+            'message'    => 'Product master data and stock synced successfully',
+            'product_id' => $product->id
         ], 200);
     }
 }
