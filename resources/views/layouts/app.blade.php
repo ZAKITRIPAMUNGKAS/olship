@@ -31,7 +31,7 @@
     <div class="wrap">
       <div class="strip-links">
         <span><i class="fas fa-bolt"></i> Download App</span>
-        <a href="#">Tentang Listrindo Jaya</a>
+        <a href="https://listrindo.tepegrafi.id" target="_blank" rel="noopener">Tentang Listrindo Jaya</a>
       </div>
       <div class="strip-links">
         <a href="#"><i class="fas fa-tag"></i> Promo Hari Ini</a>
@@ -274,7 +274,7 @@
       <div class="footer-col">
         <div class="footer-col-title">Perusahaan</div>
         <ul class="footer-menu">
-          <li><a href="{{ route('home') }}">Tentang Kami</a></li>
+          <li><a href="https://listrindo.tepegrafi.id" target="_blank" rel="noopener">Tentang Kami</a></li>
           <li><a href="#">Official Store</a></li>
           <li><a href="{{ route('terms') }}">Syarat & Ketentuan</a></li>
           <li><a href="{{ route('privacy') }}">Kebijakan Privasi</a></li>
