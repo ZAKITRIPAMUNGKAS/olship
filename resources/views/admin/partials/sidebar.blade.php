@@ -221,20 +221,32 @@ $menu = [
                 
                 @if(isset($item['children']))
                     @php
-                        $isActive = collect($item['children'])->contains(fn($c) => Route::has($c['route']) && request()->routeIs($c['route']));
+                        $isActive = collect($item['children'])->contains(function($c) {
+                            if (!Route::has($c['route'])) return false;
+                            $parts = explode('.', $c['route']);
+                            $resource = $parts[1] ?? '';
+                            return request()->routeIs($c['route']) || ($resource && request()->routeIs("admin.{$resource}.*"));
+                        });
                     @endphp
                     <div x-data="{ open: {{ $isActive ? 'true' : 'false' }} }">
-                        <button @click="open = !open" 
-                                class="nav-item {{ $isActive ? 'active' : '' }}"
-                                :title="!sidebarOpen ? '{{ $item['label'] }}' : ''">
+                        <a href="{{ isset($item['route']) && Route::has($item['route']) ? route($item['route']) : '#' }}"
+                           @click="if(!sidebarOpen) { sidebarOpen = true; open = true; }" 
+                           class="nav-item {{ $isActive ? 'active' : '' }}"
+                           :title="!sidebarOpen ? '{{ $item['label'] }}' : ''"
+                           style="text-decoration: none;">
                             <i class="fas {{ $item['icon'] }}"></i>
                             <span x-show="sidebarOpen" x-transition.opacity style="flex:1;">{{ $item['label'] }}</span>
-                            <i x-show="sidebarOpen" class="fas fa-chevron-down" style="font-size:10px; transition:0.2s;" :style="open ? 'transform:rotate(180deg)' : ''"></i>
-                        </button>
+                            <i x-show="sidebarOpen" class="fas fa-chevron-down" style="font-size:10px; transition:0.2s; padding:4px;" :style="open ? 'transform:rotate(180deg)' : ''" @click.prevent.stop="open = !open"></i>
+                        </a>
                         <div x-show="open && sidebarOpen" x-cloak class="nav-sub">
                             @foreach($item['children'] as $child)
                                 @if(Route::has($child['route']))
-                                    <a href="{{ route($child['route']) }}" class="{{ request()->routeIs($child['route']) ? 'active' : '' }}">
+                                    @php
+                                        $childParts = explode('.', $child['route']);
+                                        $childRes = $childParts[1] ?? '';
+                                        $isChildActive = request()->routeIs($child['route']) || ($child['route'] === 'admin.products.index' && request()->routeIs('admin.products.edit'));
+                                    @endphp
+                                    <a href="{{ route($child['route']) }}" class="{{ $isChildActive ? 'active' : '' }}">
                                         {{ $child['label'] }}
                                     </a>
                                 @endif
