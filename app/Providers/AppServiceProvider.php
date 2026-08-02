@@ -42,6 +42,8 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(Withdrawal::class, WithdrawalPolicy::class);
         Gate::policy(Store::class, StorePolicy::class);
 
+        \Illuminate\Pagination\Paginator::defaultView('vendor.pagination.custom');
+
         if (config('app.env') === 'production') {
             \Illuminate\Support\Facades\URL::forceScheme('https');
         }

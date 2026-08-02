@@ -159,7 +159,7 @@
     </div>
 
     @if($products->hasPages())
-    <div style="padding: 16px 24px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; background: var(--panel-bg);">
+    <div style="padding: 16px 24px; border-top: 1px solid var(--border); background: var(--panel-bg);">
         {{ $products->links() }}
     </div>
     @endif
