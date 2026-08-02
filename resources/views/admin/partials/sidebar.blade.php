@@ -229,15 +229,14 @@ $menu = [
                         });
                     @endphp
                     <div x-data="{ open: {{ $isActive ? 'true' : 'false' }} }">
-                        <a href="{{ isset($item['route']) && Route::has($item['route']) ? route($item['route']) : '#' }}"
-                           @click="if(!sidebarOpen) { sidebarOpen = true; open = true; }" 
-                           class="nav-item {{ $isActive ? 'active' : '' }}"
-                           :title="!sidebarOpen ? '{{ $item['label'] }}' : ''"
-                           style="text-decoration: none;">
+                        <button type="button"
+                                @click="if(!sidebarOpen) { sidebarOpen = true; open = true; } else { open = !open; }" 
+                                class="nav-item {{ $isActive ? 'active' : '' }}"
+                                :title="!sidebarOpen ? '{{ $item['label'] }}' : ''">
                             <i class="fas {{ $item['icon'] }}"></i>
                             <span x-show="sidebarOpen" x-transition.opacity style="flex:1;">{{ $item['label'] }}</span>
-                            <i x-show="sidebarOpen" class="fas fa-chevron-down" style="font-size:10px; transition:0.2s; padding:4px;" :style="open ? 'transform:rotate(180deg)' : ''" @click.prevent.stop="open = !open"></i>
-                        </a>
+                            <i x-show="sidebarOpen" class="fas fa-chevron-down" style="font-size:10px; transition: transform 0.2s;" :style="open ? 'transform:rotate(180deg)' : ''"></i>
+                        </button>
                         <div x-show="open && sidebarOpen" x-cloak class="nav-sub">
                             @foreach($item['children'] as $child)
                                 @if(Route::has($child['route']))
