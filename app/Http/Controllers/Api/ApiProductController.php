@@ -42,7 +42,9 @@ class ApiProductController extends Controller
         // Set log context
         $logger = Log::channel('api_sync');
 
-        $product = Product::where('sku', $sku)->first();
+        $product = Product::where('sku', $sku)
+            ->orWhere('sku', 'LIKE', "%{$sku}%")
+            ->first();
 
         $updateData = [
             'stock'               => $totalStock,
@@ -68,21 +70,23 @@ class ApiProductController extends Controller
             $brand = \App\Models\Brand::first();
             $seller = \App\Models\User::first();
 
+            $catId = $category ? $category->id : null;
             $productName = $request->input('nama', 'Produk ' . $sku);
+            $generatedSku = \App\Services\SkuGeneratorService::generateSku($catId, $productName, $sku);
 
             $createData = array_merge([
                 'seller_id'   => $seller ? $seller->id : 1,
-                'category_id' => $category ? $category->id : 1,
+                'category_id' => $catId,
                 'brand_id'    => $brand ? $brand->id : null,
                 'name'        => $productName,
-                'sku'         => $sku, // SKU Olshop presisi 1-to-1 dengan Kode Barang WMS (SSoT)
+                'sku'         => $generatedSku, // SKU Olshop Otomatis Berdasarkan Kategori!
                 'price'       => $request->input('harga', 0),
                 'is_active'   => true,
             ], $updateData);
 
             $product = Product::create($createData);
 
-            $logger->info("Stock Sync Auto-Created Product: SKU [{$sku}] (WMS Code: {$sku}) added to Olshop.");
+            $logger->info("Stock Sync Auto-Created Product: SKU [{$generatedSku}] (WMS Code: {$sku}) added to Olshop.");
         } else {
             // Validate timestamp to prevent race conditions
             if ($product->last_stock_sync_at) {

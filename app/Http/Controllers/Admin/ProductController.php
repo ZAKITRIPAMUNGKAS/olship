@@ -63,7 +63,7 @@ class ProductController extends Controller
     {
         $data = $request->validate([
             'name'        => 'required|string|max:255',
-            'sku'         => 'required|string|unique:products,sku,' . $product->id,
+            'sku'         => 'nullable|string|unique:products,sku,' . $product->id,
             'category_id' => 'required|exists:categories,id',
             'brand_id'    => 'nullable|exists:brands,id',
             'price'       => 'required|numeric|min:0',
@@ -74,6 +74,12 @@ class ProductController extends Controller
         ]);
 
         $data['is_active'] = $request->boolean('is_active');
+
+        // Otomatis bentuk SKU baru berdasarkan Kategori Storefront
+        if (!empty($data['category_id'])) {
+            $data['sku'] = \App\Services\SkuGeneratorService::generateSku($data['category_id'], $data['name'], $product->sku);
+        }
+
         $product->update($data);
 
         // [FIX BUG 4] Storage Bloat: Hapus file lama saat gambar diupdate
