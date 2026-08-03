@@ -10,7 +10,7 @@ class DatabaseSeeder extends Seeder
     use WithoutModelEvents;
 
     /**
-     * Seed the application's database.
+     * Seed the application's database (Fresh Account & Setup Only).
      */
     public function run(): void
     {
@@ -21,15 +21,8 @@ class DatabaseSeeder extends Seeder
             DummyLocationSeeder::class,
             CategorySeeder::class,
             BrandSeeder::class,
-            ProductSeeder::class,
-            FlashSaleSeeder::class,
-            BannerSeeder::class,
             SiteSettingSeeder::class,
-            OrderSeeder::class,
-            PaymentSeeder::class,
-            ReviewSeeder::class,
-            WishlistSeeder::class,
-            CouponSeeder::class,
+            BannerSeeder::class,
         ]);
     }
 }
