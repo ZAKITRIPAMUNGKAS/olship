@@ -12,8 +12,9 @@
     rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-  <link rel="icon" type="image/jpeg" href="{{ asset('favicon.jpg') }}">
-  <link rel="apple-touch-icon" href="{{ asset('favicon.jpg') }}">
+  <link rel="icon" type="image/jpeg" href="{{ asset('favicon.jpg') }}?v=2">
+  <link rel="shortcut icon" href="{{ asset('favicon.ico') }}?v=2">
+  <link rel="apple-touch-icon" href="{{ asset('favicon.jpg') }}?v=2">
 
   @vite(['resources/css/listrindojaya.css', 'resources/js/app.js'])
   <style>
