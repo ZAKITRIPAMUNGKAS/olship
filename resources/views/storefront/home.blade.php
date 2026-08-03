@@ -29,10 +29,10 @@
 
 @section('content')
   <!-- HERO -->
-  <section class="hero" x-data="{ activeSlide: 0, slidesCount: {{ count($banners) }} }" x-init="setInterval(() => activeSlide = (activeSlide + 1) % slidesCount, 5000)">
+  <section class="hero" x-data="{ activeSlide: 0, slidesCount: {{ max(count($banners), 1) }} }" x-init="slidesCount > 1 && setInterval(() => activeSlide = (activeSlide + 1) % slidesCount, 5000)">
     <div class="hero-grid">
       <div class="hero-main" style="position:relative; overflow:hidden; min-height:320px;">
-        @foreach($banners as $index => $banner)
+        @forelse($banners as $index => $banner)
         <div class="hero-slide-wrapper" 
              x-show="activeSlide === {{ $index }}" 
              x-transition:enter="slide-enter-active"
@@ -54,31 +54,39 @@
               : 'Koleksi lengkap lampu hemat energi, saklar, kabel, MCB, dan material kelistrikan standar SNI berkualitas.';
             $ctaColor = $index === 0 ? 'var(--brand-blue, #025cca)' : 'var(--amber, #ea580c)';
           @endphp
-          <div class="hero-bg-img" style="background: {{ $bgGradient }}, url('{{ asset($banner->image) }}') center/cover; position:absolute; inset:0; z-index:1;"></div>
+          <div class="hero-bg-img" style="background: {{ $bgGradient }}, url('{{ $banner->image_url }}') center/cover; position:absolute; inset:0; z-index:1;"></div>
           <div class="hero-body" style="position:relative; z-index:2; padding: 48px; color:#fff;">
             <div class="hero-chip" style="background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.3); color:#fff; display:inline-flex; align-items:center; gap:6px; font-size:11px; font-weight:600; padding:4px 12px; border-radius:20px; text-transform:uppercase; margin-bottom:16px;">
               <i class="fas {{ $chipIcon }}" style="color: #ea580c;"></i> {{ $chipText }}
             </div>
-            @if($index === 0)
-              <h1 class="hero-h" style="font-family: 'Barlow Condensed', sans-serif; font-size:56px; font-weight:800; line-height:0.95; letter-spacing:-1px; margin-bottom:12px; color:#fff;">DISKON<br>HINGGA <span style="color:#ea580c;">70%</span></h1>
-            @else
-              <h1 class="hero-h" style="font-family: 'Barlow Condensed', sans-serif; font-size:56px; font-weight:800; line-height:0.95; letter-spacing:-1px; margin-bottom:12px; color:#fff;">ALAT LISTRIK<br>& <span style="color:#ea580c;">LAMPU LED</span></h1>
-            @endif
+            <h1 class="hero-h" style="font-family: 'Barlow Condensed', sans-serif; font-size:48px; font-weight:800; line-height:1.0; letter-spacing:-1px; margin-bottom:12px; color:#fff; text-transform:uppercase;">
+              {{ $banner->title }}
+            </h1>
             <p class="hero-sub" style="font-size:15px; margin-bottom:28px; max-width:360px; color:rgba(255,255,255,0.9); line-height:1.6;">{{ $subText }}</p>
             <div class="hero-cta">
-              <a href="{{ $banner->link }}" class="btn-hero btn-hero-main" style="background: {{ $ctaColor }}; padding:12px 28px; border-radius:8px; font-size:14px; font-weight:700; color:#fff; display:inline-block; text-decoration:none;">Belanja Sekarang</a>
-              <a href="{{ $banner->link }}" class="btn-hero-ghost" style="background:transparent; color:#fff; border:1px solid rgba(255,255,255,0.3); padding:11px 24px; border-radius:8px; display:inline-block; text-decoration:none; margin-left:10px;">Lihat Promo <i class="fas fa-arrow-right"></i></a>
+              <a href="{{ $banner->link ?: '#' }}" class="btn-hero btn-hero-main" style="background: {{ $ctaColor }}; padding:12px 28px; border-radius:8px; font-size:14px; font-weight:700; color:#fff; display:inline-block; text-decoration:none;">Belanja Sekarang</a>
+              <a href="{{ $banner->link ?: '#' }}" class="btn-hero-ghost" style="background:transparent; color:#fff; border:1px solid rgba(255,255,255,0.3); padding:11px 24px; border-radius:8px; display:inline-block; text-decoration:none; margin-left:10px;">Lihat Promo <i class="fas fa-arrow-right"></i></a>
             </div>
           </div>
         </div>
-        @endforeach
+        @empty
+        <div class="hero-slide-wrapper" style="position:relative; padding: 48px; color:#fff; background: linear-gradient(105deg, rgba(2, 25, 75, 0.95) 38%, rgba(2, 25, 75, 0.4) 100%);">
+          <div class="hero-body">
+            <h1 class="hero-h" style="font-family: 'Barlow Condensed', sans-serif; font-size:48px; font-weight:800; color:#fff;">CV. LISTRINDO JAYA ELEKTRIK</h1>
+            <p class="hero-sub" style="font-size:15px; max-width:400px; color:rgba(255,255,255,0.9);">Distributor alat teknik & kelistrikan terpercaya.</p>
+          </div>
+        </div>
+        @endforelse
         
         <!-- Slider Navigation Controls -->
+        @if(count($banners) > 1)
         <div class="slider-dots" style="position:absolute; bottom:20px; left:48px; display:flex; gap:8px; z-index:10;">
           @foreach($banners as $index => $banner)
           <span class="dot" :class="activeSlide === {{ $index }} ? 'active' : ''" @click="activeSlide = {{ $index }}" style="width:10px; height:10px; border-radius:50%; background:rgba(255,255,255,0.4); cursor:pointer; transition:all 0.2s;" :style="activeSlide === {{ $index }} ? 'background:#fff; width:24px; border-radius:5px;' : ''"></span>
           @endforeach
         </div>
+        @endif
+      </div>
       </div>
 
       <div class="hero-side">

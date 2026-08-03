@@ -71,7 +71,7 @@ $menu = [
         'icon' => 'fa-image',
         'label' => 'Banner Website',
         'route' => 'admin.banners.index',
-        'permission' => 'banners.manage',
+        'permission' => null,
     ],
     [
         'icon' => 'fa-chart-bar',

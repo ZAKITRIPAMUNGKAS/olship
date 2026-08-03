@@ -78,6 +78,29 @@
 
 </div>
 
+{{-- ══════════════ BANNER PROMOSI WIDGET ══════════════ --}}
+<div class="panel fade-up" style="margin-bottom:24px; background: linear-gradient(135deg, rgba(2,92,202,0.08) 0%, rgba(234,88,12,0.08) 100%); border: 1px solid rgba(2,92,202,0.2);">
+    <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px; padding:4px;">
+        <div style="display:flex; align-items:center; gap:16px;">
+            <div style="width:44px; height:44px; border-radius:12px; background:var(--brand-primary); color:#fff; display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0;">
+                <i class="fas fa-images"></i>
+            </div>
+            <div>
+                <h3 style="font-size:15px; font-weight:700; margin:0 0 2px 0;">Banner Promosi Homepage</h3>
+                <p style="font-size:12px; color:var(--text-muted); margin:0;">Kelola banner slide di halaman depan toko online untuk promosi & diskon produk.</p>
+            </div>
+        </div>
+        <div style="display:flex; gap:10px;">
+            <a href="{{ route('admin.banners.index') }}" class="btn-ag btn-ghost" style="white-space:nowrap; background:var(--surface-1);">
+                <i class="fas fa-list"></i> Lihat Semua Banner
+            </a>
+            <a href="{{ route('admin.banners.create') }}" class="btn-ag btn-primary" style="white-space:nowrap;">
+                <i class="fas fa-plus"></i> Tambah Banner Baru
+            </a>
+        </div>
+    </div>
+</div>
+
 {{-- ══════════════ CHARTS SECTION ══════════════ --}}
 <div class="grid-2-1" x-data="dashboardCharts" style="margin-bottom:24px;">
     
