@@ -12,7 +12,7 @@ class SiteSettingSeeder extends Seeder
         $settings = [
             ['key' => 'site_name', 'value' => 'Listrindo Jaya'],
             ['key' => 'site_tagline', 'value' => 'Professional Tools & Industrial Supplies'],
-            ['key' => 'contact_email', 'value' => 'info@listrindojaya.com'],
+            ['key' => 'contact_email', 'value' => 'info@listrindojayaelektrik.com'],
             ['key' => 'contact_phone', 'value' => '021-12345678'],
             ['key' => 'address', 'value' => 'Jl. Teknik Raya No. 123, Jakarta Pusat'],
             ['key' => 'currency_symbol', 'value' => 'Rp'],
