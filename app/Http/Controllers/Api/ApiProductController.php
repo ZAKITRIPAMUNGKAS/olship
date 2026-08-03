@@ -47,6 +47,7 @@ class ApiProductController extends Controller
         $updateData = [
             'stock'               => $totalStock,
             'last_stock_sync_at'  => $calculatedAt,
+            'source'              => 'WMS',
         ];
 
         if ($request->filled('image_url')) {

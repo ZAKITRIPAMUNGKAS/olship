@@ -12,14 +12,23 @@ $menu = [
     ],
     [
         'icon' => 'fa-box',
-        'label' => 'Produk',
+        'label' => 'Produk (WMS SSoT)',
         'route' => 'admin.products.index',
         'permission' => 'products.view',
         'children' => [
-            ['label' => 'Semua Produk',  'route' => 'admin.products.index'],
-            ['label' => 'Tambah Produk', 'route' => 'admin.products.create'],
-            ['label' => 'Kategori',      'route' => 'admin.categories.index'],
-            ['label' => 'Merek',         'route' => 'admin.brands.index'],
+            ['label' => 'Daftar Produk WMS',  'route' => 'admin.products.index'],
+            ['label' => 'Kategori Tampilan',  'route' => 'admin.categories.index'],
+            ['label' => 'Merek',              'route' => 'admin.brands.index'],
+        ],
+    ],
+    [
+        'icon' => 'fa-sync-alt',
+        'label' => 'Sinkronisasi WMS',
+        'route' => 'admin.failed-sync-logs.index',
+        'permission' => null,
+        'children' => [
+            ['label' => 'Status Sinkronisasi', 'route' => 'admin.failed-sync-logs.index'],
+            ['label' => 'Log Aktivitas Sync',  'route' => 'admin.audit-logs.index'],
         ],
     ],
     [

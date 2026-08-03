@@ -37,44 +37,12 @@ class ProductController extends Controller
 
     public function create()
     {
-        $categories = Category::active()->get();
-        $brands     = Brand::all();
-        return view('admin.products.create', compact('categories', 'brands'));
+        return redirect()->route('admin.products.index')->with('warning', 'Master produk dikelola melalui WMS sebagai Single Source of Truth. Silakan tambahkan produk pada Dashboard WMS. Setelah tersimpan, produk akan otomatis tersinkronisasi ke Olshop.');
     }
 
     public function store(Request $request)
     {
-        $data = $request->validate([
-            'name'        => 'required|string|max:255',
-            'sku'         => 'required|string|unique:products',
-            'category_id' => 'required|exists:categories,id',
-            'brand_id'    => 'nullable|exists:brands,id',
-            'price'       => 'required|numeric|min:0',
-            'sale_price'  => 'nullable|numeric|min:0',
-            'stock'       => 'required|integer|min:0',
-            'description' => 'nullable|string',
-            'is_active'   => 'boolean',
-            'images'      => 'nullable|array',
-            'images.*'    => 'image|max:2048',
-        ]);
-
-        $data['slug']      = Str::slug($data['name']);
-        $data['is_active'] = $request->boolean('is_active', true);
-
-        $product = Product::create($data);
-
-        // [FIX BUG 4] Handling upload images saat pembuatan produk
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $index => $img) {
-                $path = $img->store('products', 'public');
-                $product->images()->create([
-                    'image_path' => $path,
-                    'is_primary' => $index === 0 // Gambar pertama jadi primary
-                ]);
-            }
-        }
-
-        return redirect()->route('admin.products.index')->with('success', 'Produk berhasil ditambahkan.');
+        return redirect()->route('admin.products.index')->with('warning', 'Master produk dikelola melalui WMS sebagai Single Source of Truth. Silakan tambahkan produk pada Dashboard WMS. Setelah tersimpan, produk akan otomatis tersinkronisasi ke Olshop.');
     }
 
     public function show(Product $product)

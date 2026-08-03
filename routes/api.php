@@ -23,6 +23,10 @@ Route::prefix('v1/storefront')->group(function () {
 // ── PRIVAT: Sinkronisasi dari WMS (butuh Bearer Token) ────────────────────
 Route::middleware(['api.token', 'throttle:60,1'])->prefix('v1')->group(function () {
 
+    // POST /api/v1/products/sync
+    Route::post('/products/sync', [ApiProductController::class, 'syncStock'])
+        ->name('api.products.sync');
+
     // POST /api/v1/products/sync-stock
     Route::post('/products/sync-stock', [ApiProductController::class, 'syncStock'])
         ->name('api.products.sync-stock');

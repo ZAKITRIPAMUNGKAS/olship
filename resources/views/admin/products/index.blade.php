@@ -13,15 +13,22 @@
         <h2 style="font-size: 20px; font-weight: 800; color: var(--text-main); line-height: 1.2;">Manajemen Katalog Produk</h2>
         <p style="font-size: 13px; color: var(--text-muted); margin-top: 3px;">Kelola inventaris, harga, dan ketersediaan produk di toko online.</p>
     </div>
-    <div style="display: flex; gap: 10px;">
+    <div style="display: flex; gap: 10px; align-items: center;">
+        <span class="badge-ag badge-info" style="padding: 8px 14px; font-size: 12px; font-weight: 700; border-radius: 10px; background: rgba(2, 92, 202, 0.12); border: 1px solid rgba(2, 92, 202, 0.25); color: var(--brand-primary);">
+            <i class="fas fa-database" style="margin-right: 6px;"></i> Single Source of Truth: WMS
+        </span>
         <a href="{{ route('admin.products.export') }}" class="btn-ag btn-ghost">
             <i class="fas fa-file-export"></i> Ekspor CSV
         </a>
-        <a href="{{ route('admin.products.create') }}" class="btn-ag btn-primary">
-            <i class="fas fa-plus"></i> Tambah Produk Baru
-        </a>
     </div>
 </div>
+
+@if(session('warning'))
+<div class="panel fade-up" style="background: rgba(234, 88, 12, 0.1); border: 1px solid rgba(234, 88, 12, 0.3); padding: 14px 18px; border-radius: 12px; margin-bottom: 20px; color: #ea580c; font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 12px;">
+    <i class="fas fa-info-circle" style="font-size: 18px;"></i>
+    <span>{{ session('warning') }}</span>
+</div>
+@endif
 
 {{-- Filter Card --}}
 <div class="panel fade-up delay-1" style="padding: 16px 20px;">

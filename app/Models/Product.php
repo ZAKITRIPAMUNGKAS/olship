@@ -22,7 +22,7 @@ class Product extends Model
         'length', 'width', 'height', 'condition', 'is_active',
         'is_featured', 'is_digital', 'meta_title', 'meta_description',
         'total_sold', 'total_views', 'rating_avg', 'rating_count',
-        'last_stock_sync_at', 'image_url_override'
+        'last_stock_sync_at', 'image_url_override', 'source'
     ];
 
     protected $appends = ['image_url'];
