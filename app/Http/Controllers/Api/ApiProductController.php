@@ -68,23 +68,21 @@ class ApiProductController extends Controller
             $brand = \App\Models\Brand::first();
             $seller = \App\Models\User::first();
 
-            $catId = $category ? $category->id : 1;
             $productName = $request->input('nama', 'Produk ' . $sku);
-            $generatedSku = \App\Services\SkuGeneratorService::generateSku($catId, $productName, $sku);
 
             $createData = array_merge([
                 'seller_id'   => $seller ? $seller->id : 1,
-                'category_id' => $catId,
+                'category_id' => $category ? $category->id : 1,
                 'brand_id'    => $brand ? $brand->id : null,
                 'name'        => $productName,
-                'sku'         => $generatedSku,
+                'sku'         => $sku, // SKU Olshop presisi 1-to-1 dengan Kode Barang WMS (SSoT)
                 'price'       => $request->input('harga', 0),
                 'is_active'   => true,
             ], $updateData);
 
             $product = Product::create($createData);
 
-            $logger->info("Stock Sync Auto-Created Product: SKU [{$generatedSku}] (WMS Code: {$sku}) added to Olshop.");
+            $logger->info("Stock Sync Auto-Created Product: SKU [{$sku}] (WMS Code: {$sku}) added to Olshop.");
         } else {
             // Validate timestamp to prevent race conditions
             if ($product->last_stock_sync_at) {
